@@ -12,11 +12,13 @@ npm install @rebirth/rebirth-http --save-dev
 
 ### Register `REBIRTH_HTTP_PROVIDERS`
 
+```typescript
     import { REBIRTH_HTTP_PROVIDERS } from '@rebirth/rebirth-http';
     
     bootstrap(AppComponent,[ ...REBIRTH_HTTP_PROVIDERS]);
-    
-### RESTful service client
+```
+   
+### rebirth-http service
 
 ```typescript
     import { Injectable } from '@angular/core';
