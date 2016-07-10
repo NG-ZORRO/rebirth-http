@@ -1,0 +1,54 @@
+{
+  "name": "@rebirth/rebirth-http",
+  "version": "0.0.1",
+  "author": "greengerong<grzx2210@163.com>",
+  "description": "Java JPA like http lib for Angular2",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "typings-install": "typings install",
+    "watch": "tsc --watch",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "lint": "tslint 'src/**/*.ts'",
+    "pretest": "npm run lint",
+    "test": "",
+    "start": "npm run build",
+    "prepublish": "npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/forms": "^0.2.0",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
+    "@angular/platform-server": "2.0.0-rc.3",
+    "@angular/router": "3.0.0-beta.2",
+    "core-js": "^2.4.0",
+    "es6-promise": "^3.1.2",
+    "es6-shim": "^0.35.1",
+    "es7-reflect-metadata": "^1.6.0",
+    "rimraf": "^2.5.2",
+    "rxjs": "5.0.0-beta.6",
+    "ts-helpers": "1.1.1",
+    "tslint": "^3.5.0",
+    "typescript": "^1.9.0-dev.20160409",
+    "typings": "~1.0.3",
+    "zone.js": "~0.6.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greengerong/rebirth-http.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/greengerong/rebirth-http/issues"
+  },
+  "homepage": "https://github.com/greengerong/rebirth-http#readme"
+}
