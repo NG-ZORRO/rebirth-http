@@ -26,7 +26,7 @@ npm install rebirth-http --save-dev
     import { SearchResult } from './SearchResult';
     import { Article } from './article';
     import { Observable } from 'rxjs/Observable';
-    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, Query, Path } from 'rebirth-http';
+    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, POST, PUT, DELETE, Query, Path, Body } from  'rebirth-http';
     
     @Injectable()
     export class ArticleService extends RebirthHttp {
