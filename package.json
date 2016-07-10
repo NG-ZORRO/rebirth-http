@@ -1,5 +1,5 @@
 {
-  "name": "@rebirth/rebirth-http",
+  "name": "rebirth-http",
   "version": "0.0.1",
   "author": "greengerong<grzx2210@163.com>",
   "description": "Java JPA like http lib for Angular2",
@@ -17,8 +17,7 @@
     "lint": "tslint 'src/**/*.ts'",
     "pretest": "npm run lint",
     "test": "",
-    "start": "npm run build",
-    "prepublish": "npm run test && npm run build"
+    "start": "npm run build"
   },
   "devDependencies": {
     "@angular/common": "2.0.0-rc.4",

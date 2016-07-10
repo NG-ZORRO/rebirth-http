@@ -5,7 +5,7 @@ Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us 
 
 ## Install
 ```bash
-npm install @rebirth/rebirth-http --save-dev
+npm install rebirth-http --save-dev
 ```
 
 ## How to use?
@@ -13,7 +13,7 @@ npm install @rebirth/rebirth-http --save-dev
 ### Register `REBIRTH_HTTP_PROVIDERS`
 
 ```typescript
-    import { REBIRTH_HTTP_PROVIDERS } from '@rebirth/rebirth-http';
+    import { REBIRTH_HTTP_PROVIDERS } from 'rebirth-http';
     
     bootstrap(AppComponent,[ ...REBIRTH_HTTP_PROVIDERS]);
 ```
@@ -26,7 +26,7 @@ npm install @rebirth/rebirth-http --save-dev
     import { SearchResult } from './SearchResult';
     import { Article } from './article';
     import { Observable } from 'rxjs/Observable';
-    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, Query, Path } from '@rebirth/rebirth-http';
+    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, Query, Path } from 'rebirth-http';
     
     @Injectable()
     export class ArticleService extends RebirthHttp {
@@ -67,7 +67,7 @@ npm install @rebirth/rebirth-http --save-dev
 ### Global interceptors
 
 ```typescript
-    import { RebirthHttpProvider } from '@rebirth/rebirth-http';
+    import { RebirthHttpProvider } from 'rebirth-http';
     
     @Component({
       selector: 'app',
