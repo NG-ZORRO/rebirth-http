@@ -18,6 +18,7 @@ npm install @rebirth/rebirth-http --save-dev
     
 ### RESTful service client
 
+```typescript
     import { Injectable } from '@angular/core';
     import { Http } from '@angular/http';
     import { SearchResult } from './SearchResult';
@@ -32,7 +33,6 @@ npm install @rebirth/rebirth-http --save-dev
         super(http, rebirthHttpProvider);
       }
     
-      @Cacheable({pool: 'articles', storageType: StorageType.memory})
       @GET('article')
       getArticles(@Query('pageIndex') pageIndex = 1,
                   @Query('pageSize') pageSize = 10): Observable<SearchResult<Article>> {
@@ -60,9 +60,11 @@ npm install @rebirth/rebirth-http --save-dev
       };
 
     }
+```
 
 ### Global interceptors
-    
+
+```typescript
     import { RebirthHttpProvider } from '@rebirth/rebirth-http';
     
     @Component({
@@ -93,7 +95,7 @@ npm install @rebirth/rebirth-http --save-dev
           });
       }
     }
-    
+```   
     
 ## API Docs
 
