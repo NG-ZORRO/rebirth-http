@@ -35,14 +35,14 @@ npm install rebirth-http --save
         super({ http, jsonp, rebirthHttpProvider});
       }
     
-      @GET('article')
-      getArticles(@Query('pageIndex') pageIndex = 1,
-                  @Query('pageSize') pageSize = 10): Observable<SearchResult<Article>> {
+      @GET("article")
+      getArticles(@Query("pageIndex") pageIndex = 1,
+                  @Query("pageSize") pageSize = 10): Observable<SearchResult<Article>> {
         return null; // leave `return null` due to TypeScript Interface isn't visable in runtime
       }
     
-      @GET('article/:id')
-      getArticleByUrl(@Path('id') articleUrl: string): Observable<Article> {
+      @GET("article/:id")
+      getArticleByUrl(@Path("id") articleUrl: string): Observable<Article> {
         return null;
       }
       
@@ -62,7 +62,7 @@ npm install rebirth-http --save
       }
        
       @JSONP("article/:id")
-      getArticleByJsonp(@Path("id") id: string, @Query('name') name: string): Observable<any> {
+      getArticleByJsonp(@Path("id") id: string, @Query("name") name: string): Observable<any> {
            return null;
       }
     }
