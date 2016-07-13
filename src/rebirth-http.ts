@@ -261,10 +261,11 @@ function methodBuilder(method: number, isJsonp = false) {
                     }
                 }
 
-                let host = this.getBaseUrl().replace(/\/$/, "");
+                let baseUrl = this.getBaseUrl();
+                let host = baseUrl ? baseUrl.replace(/\/$/, "") + '/' : '';
                 let options = new RequestOptions({
                     method,
-                    url: `${host}/${resUrl.replace(/^\//, "")}`,
+                    url: `${host}${resUrl.replace(/^\//, "")}`,
                     headers,
                     body,
                     search
