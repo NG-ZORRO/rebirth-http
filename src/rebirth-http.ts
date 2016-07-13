@@ -56,14 +56,22 @@ export class RebirthHttpProvider {
             }, res);
     }
 
-    baseUrl(host: string): RebirthHttpProvider {
+    baseUrl(host: string, excludes: RegExp[] = []): RebirthHttpProvider {
         this.interceptors.push({
-            request: (request: RequestOptions): void => {
-                if (!/^https?:/.test(request.url)) {
-                    host = host.replace(/\/$/, "");
-                    let url = request.url.replace(/^\//, "");
-                    request.url = `${host}/${url}`;
+            request: (request: RequestOptions): RequestOptions => {
+                if (/^https?:/.test(request.url)) {
+                    return request;
                 }
+
+                let excludeUrl = excludes.some(t => t.test(request.url));
+                if (excludeUrl) {
+                    return request;
+                }
+
+                host = host.replace(/\/$/, "");
+                let url = request.url.replace(/^\//, "");
+                request.url = `${host}/${url}`;
+                return request;
             }
         });
 
@@ -289,17 +297,17 @@ function methodBuilder(method: number, isJsonp = false) {
     };
 }
 
-export var GET = methodBuilder(RequestMethod.Get);
+export const GET = methodBuilder(RequestMethod.Get);
 
-export var JSONP = methodBuilder(RequestMethod.Get, true);
+export const JSONP = methodBuilder(RequestMethod.Get, true);
 
-export var POST = methodBuilder(RequestMethod.Post);
+export const POST = methodBuilder(RequestMethod.Post);
 
-export var PUT = methodBuilder(RequestMethod.Put);
+export const PUT = methodBuilder(RequestMethod.Put);
 
-export var DELETE = methodBuilder(RequestMethod.Delete);
+export const DELETE = methodBuilder(RequestMethod.Delete);
 
-export var HEAD = methodBuilder(RequestMethod.Head);
+export const HEAD = methodBuilder(RequestMethod.Head);
 
 
 export const REBIRTH_HTTP_PROVIDERS: Array<any> = [
