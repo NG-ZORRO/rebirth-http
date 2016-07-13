@@ -5,7 +5,7 @@ Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us 
 
 ## Install
 ```bash
-npm install rebirth-http --save-dev
+npm install rebirth-http --save
 ```
 
 ## How to use?
