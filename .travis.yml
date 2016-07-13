@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "5"
+  - "6"
+
+before_script:
+  - npm install -g karma typescript typings
+  - npm install
+  - typings install
+
+sudo: false

@@ -1,6 +1,7 @@
 import { Injectable, Inject, Optional } from '@angular/core';
 import {
     Http,
+    Jsonp,
     Headers as ngHeaders,
     URLSearchParams,
     Request,
@@ -94,27 +95,42 @@ export class RebirthHttpProvider {
 }
 
 export class RebirthHttp {
+    protected http: Http;
+    protected jsonp: Jsonp;
+    protected rebirthHttpProvider: RebirthHttpProvider;
 
-    constructor(protected http: Http, @Optional() protected rebirthHttpProvider: RebirthHttpProvider) {
+    constructor({ http, jsonp, rebirthHttpProvider }:
+        {http?: Http, jsonp?: Jsonp, rebirthHttpProvider ?: RebirthHttpProvider}) {
+        this.http = http;
+        this.jsonp = jsonp;
+        this.rebirthHttpProvider = rebirthHttpProvider;
     }
 
-    protected getBaseUrl(): string {
+    protected
+    getBaseUrl(): string {
         return '';
-    };
+    }
+    ;
 
-    protected getDefaultHeaders(): Object {
+    protected
+    getDefaultHeaders(): Object {
         return null;
-    };
+    }
+    ;
 
-    protected requestInterceptor(req: RequestOptions): RequestOptions | void {
-        if (this.rebirthHttpProvider) {
+    protected
+    requestInterceptor(req: RequestOptions): RequestOptions | void {
+        if (this.rebirthHttpProvider
+        ) {
             return this.rebirthHttpProvider.handleRequest(req);
         }
         return req;
     }
 
-    protected responseInterceptor(res: Observable<any>): Observable<any> | void {
-        if (this.rebirthHttpProvider) {
+    protected
+    responseInterceptor(res: Observable < any >): Observable < any > | void {
+        if (this.rebirthHttpProvider
+        ) {
             return this.rebirthHttpProvider.handleResponse(res);
         }
 
@@ -184,7 +200,7 @@ export function Produces(producesDef: string) {
 }
 
 
-function methodBuilder(method: number) {
+function methodBuilder(method: number, isJsonp: boolean = false) {
     return function (url: string) {
         return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
 
@@ -207,7 +223,7 @@ function methodBuilder(method: number) {
                 if (pPath) {
                     for (let k in pPath) {
                         if (pPath.hasOwnProperty(k)) {
-                            resUrl = resUrl.replace(`:${pPath[k].key}`, args[pPath[k].parameterIndex]);
+                            resUrl = resUrl.replace(`:${pPath[k].key}`, encodeURIComponent(args[pPath[k].parameterIndex]));
                         }
                     }
                 }
@@ -263,7 +279,11 @@ function methodBuilder(method: number) {
                 });
 
                 options = this.requestInterceptor(options) || options;
-                let observable: Observable<Response> = this.http.request(new Request(options));
+                let httpRequest = isJsonp ? this.jsonp : this.http;
+                if (!httpRequest) {
+                    throw 'Http or jsonp should at less passs one of them!';
+                }
+                let observable: Observable<Response> = httpRequest.request(new Request(options));
                 // @Produces
                 if (descriptor.enableJson) {
                     observable = observable.map(res => res.json());
@@ -278,6 +298,8 @@ function methodBuilder(method: number) {
 
 export var GET = methodBuilder(RequestMethod.Get);
 
+export var JSONP = methodBuilder(RequestMethod.Get, true);
+
 export var POST = methodBuilder(RequestMethod.Post);
 
 export var PUT = methodBuilder(RequestMethod.Put);
@@ -285,6 +307,7 @@ export var PUT = methodBuilder(RequestMethod.Put);
 export var DELETE = methodBuilder(RequestMethod.Delete);
 
 export var HEAD = methodBuilder(RequestMethod.Head);
+
 
 export const REBIRTH_HTTP_PROVIDERS: Array<any> = [
     RebirthHttpProvider

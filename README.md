@@ -1,4 +1,4 @@
-# @rebirth/rebirth-http
+# @rebirth/rebirth-http([![Build Status](https://travis-ci.org/greengerong/rebirth-http.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-http))
 > Java JPA like http lib for Angular2
 
 Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us the inspiration.
@@ -49,17 +49,17 @@ npm install rebirth-http --save-dev
       @POST("article")
       createArticle( @Body article: Article): Observable {
         return null; 
-      };
+      }
       
       @PUT("article/:id")
       updateArticle( @Path("id") id: string, @Body article: Article): Observable {
         return null; 
-      };
+      }
       
       @DELETE("article/:id")
       deleteArticleById( @Path("id") id: string): Observable {
         return null; 
-      };
+      }
 
     }
 ```
