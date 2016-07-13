@@ -60,7 +60,11 @@ npm install rebirth-http --save
       deleteArticleById( @Path("id") id: string): Observable<Article> {
         return null; 
       }
-
+       
+      @JSONP("article/:id")
+      getArticleByJsonp(@Path("id") id: string, @Query('name') name: string): Observable<any> {
+           return null;
+      }
     }
 ```
 
@@ -116,6 +120,7 @@ npm install rebirth-http --save
 - `@POST(url: String)`
 - `@PUT(url: String)`
 - `@DELETE(url: String)`
+- `@JSONP(url: String)`
 - `@Headers(headers: Object)`
 
 ### Parameter decorators:
