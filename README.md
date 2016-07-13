@@ -22,17 +22,17 @@ npm install rebirth-http --save
 
 ```typescript
     import { Injectable } from '@angular/core';
-    import { Http } from '@angular/http';
+    import { Http, Jsonp } from '@angular/http';
     import { SearchResult } from './SearchResult';
     import { Article } from './article';
     import { Observable } from 'rxjs/Observable';
-    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, POST, PUT, DELETE, Query, Path, Body } from  'rebirth-http';
+    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, POST, PUT, DELETE, JSONP, Query, Path, Body } from  'rebirth-http';
     
     @Injectable()
     export class ArticleService extends RebirthHttp {
     
-      constructor(http: Http, rebirthHttpProvider: RebirthHttpProvider) {
-        super(http, rebirthHttpProvider);
+      constructor(http: Http, rebirthHttpProvider: RebirthHttpProvider, jsonp: Jsonp) {
+        super({ http, jsonp, rebirthHttpProvider});
       }
     
       @GET('article')
@@ -52,12 +52,12 @@ npm install rebirth-http --save
       }
       
       @PUT("article/:id")
-      updateArticle( @Path("id") id: string, @Body article: Article): Observable {
+      updateArticle( @Path("id") id: string, @Body article: Article): Observable<Article> {
         return null; 
       }
       
       @DELETE("article/:id")
-      deleteArticleById( @Path("id") id: string): Observable {
+      deleteArticleById( @Path("id") id: string): Observable<Article> {
         return null; 
       }
 

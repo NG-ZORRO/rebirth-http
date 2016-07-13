@@ -25,17 +25,22 @@ describe('rebirth-http', () => {
         }
 
         @POST("article")
-        createArticle(@Body article: any): Observable {
+        createArticle(@Body article: any): Observable<any> {
             return null;
         }
 
         @PUT("article/:id")
-        updateArticle(@Path("id") id: string, @Body article: any): Observable {
+        updateArticle(@Path("id") id: string, @Body article: any): Observable<any> {
             return null;
         }
 
         @DELETE("article/:id")
-        deleteArticleById(@Path("id") id: string): Observable {
+        deleteArticleById(@Path("id") id: string): Observable<any> {
+            return null;
+        }
+
+        @JSONP("article/:id")
+        getArticleByJsonp(@Path("id") id: string, @Query('name') name: string): Observable<any> {
             return null;
         }
     }
@@ -98,6 +103,17 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Delete);
         expect(option.url).toEqual('http://api.greengerong.com/article/99');
+        expect(option.getBody()).toBeNull();
+    });
+
+    it('should construct a jsonp request', () => {
+        jsonp.request.and.returnValue({});
+        mockService.getArticleByJsonp('99', 'green gerong');
+
+        expect(jsonp.request).toHaveBeenCalled();
+        let option: Request = jsonp.request.calls.mostRecent().args[0];
+        expect(option.method).toEqual(RequestMethod.Get);
+        expect(option.url).toEqual('http://api.greengerong.com/article/99?name=green%2520gerong');
         expect(option.getBody()).toBeNull();
     });
 
