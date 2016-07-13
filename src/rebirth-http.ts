@@ -106,31 +106,23 @@ export class RebirthHttp {
         this.rebirthHttpProvider = rebirthHttpProvider;
     }
 
-    protected
-    getBaseUrl(): string {
+    protected getBaseUrl(): string {
         return '';
     }
-    ;
 
-    protected
-    getDefaultHeaders(): Object {
+    protected getDefaultHeaders(): Object {
         return null;
     }
-    ;
 
-    protected
-    requestInterceptor(req: RequestOptions): RequestOptions | void {
-        if (this.rebirthHttpProvider
-        ) {
+    protected  requestInterceptor(req: RequestOptions): RequestOptions | void {
+        if (this.rebirthHttpProvider) {
             return this.rebirthHttpProvider.handleRequest(req);
         }
         return req;
     }
 
-    protected
-    responseInterceptor(res: Observable < any >): Observable < any > | void {
-        if (this.rebirthHttpProvider
-        ) {
+    protected responseInterceptor(res: Observable < any >): Observable < any > | void {
+        if (this.rebirthHttpProvider) {
             return this.rebirthHttpProvider.handleResponse(res);
         }
 
@@ -200,7 +192,7 @@ export function Produces(producesDef: string) {
 }
 
 
-function methodBuilder(method: number, isJsonp: boolean = false) {
+function methodBuilder(method: number, isJsonp = false) {
     return function (url: string) {
         return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
 
