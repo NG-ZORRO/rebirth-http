@@ -39,6 +39,35 @@ export class RebirthHttpProvider {
         return this;
     }
 
+    addRequestInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
+        return this.addInterceptor({
+            request: (request: RequestOptions): RequestOptions => {
+                return interceptor(request) || request;
+            }
+        });
+    }
+
+    addResponseInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
+        return this.addInterceptor({
+            response: (response: Observable<any>): Observable<any> => {
+                return response.map(res => {
+                    return interceptor(res) || res;
+                });
+            }
+        });
+    }
+
+    addResponseErrorInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
+        return this.addInterceptor({
+            response: (response: Observable<any>): Observable<any> => {
+                return response.catch(res => {
+                    return interceptor(res) || res;
+                });
+            }
+        });
+    }
+
+
     handleRequest(req: RequestOptions): RequestOptions {
         return this.interceptors
             .filter(item => !!item.request)
@@ -76,6 +105,19 @@ export class RebirthHttpProvider {
         });
 
         return this;
+    }
+
+    headers(headers = {}): RebirthHttpProvider {
+        return this.addInterceptor({
+            request: (request: RequestOptions): void => {
+                request.headers = request.headers || new ngHeaders();
+                for (let key in headers) {
+                    if (headers.hasOwnProperty(key)) {
+                        request.headers.set(key, headers[key]);
+                    }
+                }
+            }
+        });
     }
 
     json(): RebirthHttpProvider {
