@@ -39,7 +39,7 @@ export class RebirthHttpProvider {
         return this;
     }
 
-    addRequestInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
+    addRequestInterceptor(interceptor: (res: RequestOptions) => RequestOptions): RebirthHttpProvider {
         return this.addInterceptor({
             request: (request: RequestOptions): RequestOptions => {
                 return interceptor(request) || request;
