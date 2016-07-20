@@ -1,6 +1,6 @@
 {
   "name": "rebirth-http",
-  "version": "0.0.3",
+  "version": "0.0.3.1",
   "author": "greengerong<grzx2210@163.com>",
   "description": "Java JPA like http lib for Angular2",
   "main": "dist/index.js",
@@ -19,7 +19,8 @@
     "karma:debug": "karma start --auto-watch --no-single-run --browsers Chrome",
     "start": "npm run build",
     "typedoc": "typedoc",
-    "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/"
+    "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/core-js": "^0.9.28",
