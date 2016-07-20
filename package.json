@@ -22,6 +22,15 @@
     "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.28",
+    "@types/hammerjs": "^2.0.28",
+    "@types/jasmine": "^2.2.29",
+    "@types/node": "^4.0.29",
+    "@types/protractor": "^1.5.16",
+    "@types/selenium-webdriver": "^2.44.26",
+    "@types/source-map": "^0.1.26",
+    "@types/uglify-js": "^2.0.27",
+    "@types/webpack": "^1.12.29",
     "@angular/common": "2.0.0-rc.4",
     "@angular/compiler": "2.0.0-rc.4",
     "@angular/core": "2.0.0-rc.4",
@@ -69,12 +78,13 @@
     "tslint": "^3.7.1",
     "tslint-loader": "^2.1.5",
     "typedoc": "^0.4.4",
-    "typescript": "^1.9.0-dev.20160409",
+    "typescript": "^2.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "webpack-md5-hash": "^0.0.5",
-    "webpack-merge": "^0.14.0"
+    "webpack-merge": "^0.14.0",
+    "webpack-stream": "^3.2.0"
   },
   "repository": {
     "type": "git",
