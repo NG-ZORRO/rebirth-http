@@ -138,7 +138,7 @@ npm install rebirth-http --save
         
         // setup unauthorization response error interceptor
         rebirthHttpProvider.addResponseErrorInterceptor((err: Response) => {
-          if (err.status === 401 && !(err.url.indexOf('/manage/login') !== -1)) {
+          if (err.status === 401 && (err.url.indexOf('/manage/login') === -1)) {
             router.navigateByUrl('/manage/login');
             return Observable.empty();
           }
