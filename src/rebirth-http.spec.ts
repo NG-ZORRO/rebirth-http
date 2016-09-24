@@ -59,7 +59,7 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Get);
         expect(option.url).toEqual('http://api.greengerong.com/article?pageSize=10&pageIndex=1');
-        expect(option.getBody()).toBeNull();
+        expect(option.getBody()).toEqual('');
     });
 
     it('should construct a get request with path', () => {
@@ -70,7 +70,7 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Get);
         expect(option.url).toEqual('http://api.greengerong.com/article/green%20gerong');
-        expect(option.getBody()).toBeNull();
+        expect(option.getBody()).toEqual('');
     });
 
     it('should construct a post request', () => {
@@ -81,7 +81,7 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Post);
         expect(option.url).toEqual('http://api.greengerong.com/article');
-        expect(option.getBody()).toEqual('{"name":"greengerong"}');
+        expect(JSON.parse(option.getBody()).name).toEqual('greengerong');
     });
 
     it('should construct a put request', () => {
@@ -92,7 +92,7 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Put);
         expect(option.url).toEqual('http://api.greengerong.com/article/99');
-        expect(option.getBody()).toEqual('{"name":"greengerong"}');
+        expect(JSON.parse(option.getBody()).name).toEqual('greengerong');
     });
 
     it('should construct a delete request', () => {
@@ -103,7 +103,7 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Delete);
         expect(option.url).toEqual('http://api.greengerong.com/article/99');
-        expect(option.getBody()).toBeNull();
+        expect(option.getBody()).toEqual('');
     });
 
     it('should construct a jsonp request', () => {
@@ -114,7 +114,7 @@ describe('rebirth-http', () => {
         let option: Request = jsonp.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Get);
         expect(option.url).toEqual('http://api.greengerong.com/article/99?name=green%2520gerong');
-        expect(option.getBody()).toBeNull();
+        expect(option.getBody()).toEqual('');
     });
 
 });
