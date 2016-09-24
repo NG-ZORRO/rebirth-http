@@ -4,7 +4,7 @@
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "noEmitHelpers": false,
     "outDir": "dist",

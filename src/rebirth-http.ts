@@ -254,7 +254,7 @@ function methodBuilder(method: number, isJsonp = false) {
             descriptor.value = function (...args: any[]) {
 
                 // Body
-                let body = null;
+                let body = "";
                 if (pBody) {
                     let reqBody = args[pBody[0].parameterIndex];
                     body = descriptor.enableJson ? JSON.stringify(reqBody) : reqBody;
@@ -313,7 +313,7 @@ function methodBuilder(method: number, isJsonp = false) {
 
                 let baseUrl = this.getBaseUrl();
                 let host = baseUrl ? baseUrl.replace(/\/$/, "") + '/' : '';
-                let options = new RequestOptions({
+                let options = new RequestOptions(<any>{
                     method,
                     url: `${host}${resUrl.replace(/^\//, "")}`,
                     headers,
