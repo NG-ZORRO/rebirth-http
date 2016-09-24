@@ -13,9 +13,31 @@ npm install rebirth-http --save
 ### Register `REBIRTH_HTTP_PROVIDERS`
 
 ```typescript
-    import { REBIRTH_HTTP_PROVIDERS } from 'rebirth-http';
+    import { RebirthHttpModule } from 'rebirth-http';
     
-    bootstrap(AppComponent,[ ...REBIRTH_HTTP_PROVIDERS]);
+    @NgModule({
+      imports: [
+        BrowserModule,
+        HttpModule,
+        JsonpModule,
+        RebirthHttpModule
+      ],
+      declarations: [
+        AppComponent
+      ],
+      providers: [
+        ...ENV_PROVIDERS,
+        ...APP_PROVIDERS
+      ],
+      bootstrap: [
+        AppComponent
+      ]
+    })
+    export class AppModule {
+    }
+
+
+    platformBrowserDynamic().bootstrapModule(AppModule)
 ```
    
 ### rebirth-http service
