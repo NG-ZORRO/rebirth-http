@@ -11,8 +11,6 @@ import {
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-/// <reference path="../node_modules/@angular/platform-browser/src/browser.d.ts" />
-
 function isObject(value): boolean {
     return value !== null && typeof value === 'object';
 }
