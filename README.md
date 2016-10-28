@@ -10,7 +10,7 @@ npm install rebirth-http --save
 
 ## How to use?
 
-### Register `REBIRTH_HTTP_PROVIDERS`
+### Register `RebirthHttpModuleS`
 
 ```typescript
     import { RebirthHttpModule } from 'rebirth-http';

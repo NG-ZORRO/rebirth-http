@@ -147,11 +147,12 @@ export class RebirthHttp {
     protected jsonp: Jsonp;
     protected rebirthHttpProvider: RebirthHttpProvider;
 
-    constructor({ http, jsonp, rebirthHttpProvider }:
-        {http?: Http, jsonp?: Jsonp, rebirthHttpProvider ?: RebirthHttpProvider}) {
-        this.http = http;
-        this.jsonp = jsonp;
-        this.rebirthHttpProvider = rebirthHttpProvider;
+    constructor(option?: {http?: Http, jsonp?: Jsonp, rebirthHttpProvider ?: RebirthHttpProvider}) {
+        if (option) {
+            this.http = option.http;
+            this.jsonp = option.jsonp;
+            this.rebirthHttpProvider = option.rebirthHttpProvider;
+        }
     }
 
     protected getBaseUrl(): string {
