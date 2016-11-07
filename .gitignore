@@ -38,3 +38,4 @@ node_modules
 /dist/
 /typings/
 yarn.lock
+aot/

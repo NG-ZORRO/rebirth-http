@@ -8,16 +8,28 @@
     "declaration": true,
     "noEmitHelpers": false,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
   },
   "exclude": [
-    "node_modules",
-    "typings/main",
-    "typings/main.d.ts"
+    "node_modules"
+  ],
+  "files": [
+    "node_modules/typescript/lib/lib.es6.d.ts",
+    "src/index.ts",
+    "src/rebirth-http.module.ts",
+    "src/rebirth-http.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false,
   "atom": {
     "rewriteTsconfig": false
+  },
+  "angularCompilerOptions": {
+    "genDir": "aot",
+    "strictMetadataEmit": true,
+    "debug": false
   }
 }
