@@ -190,6 +190,7 @@ npm install rebirth-http --save
 - `@PUT(url: String)`
 - `@DELETE(url: String)`
 - `@JSONP(url: String)`
+- `@PATCH(url: String)`
 - `@HEAD(url: String)`
 - `@Headers(headers: Object)`
 
