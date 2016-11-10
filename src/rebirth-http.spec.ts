@@ -1,5 +1,5 @@
 import { Request, RequestMethod } from '@angular/http';
-import { RebirthHttp, JSONP, GET, POST, PUT, DELETE, BaseUrl, Query, Path, Body } from './rebirth-http';
+import { RebirthHttp, JSONP, GET, POST, PUT, DELETE, PATCH, BaseUrl, Query, Path, Body } from './rebirth-http';
 import { Observable } from 'rxjs/Rx';
 import * as Rx from 'rxjs';
 
@@ -41,6 +41,11 @@ describe('rebirth-http', () => {
 
         @JSONP("article/:id")
         getArticleByJsonp(@Path("id") id: string, @Query('name') name: string): Observable<any> {
+            return null;
+        }
+
+        @PATCH("article")
+        patchMethod(@Body article: any): Observable<any> {
             return null;
         }
     }
@@ -115,6 +120,17 @@ describe('rebirth-http', () => {
         expect(option.method).toEqual(RequestMethod.Get);
         expect(option.url).toEqual('http://api.greengerong.com/article/99?name=green%2520gerong');
         expect(option.getBody()).toEqual('');
+    });
+
+    it('should construct a patch request', () => {
+        http.request.and.returnValue({});
+        mockService.patchMethod({ name: 'greengerong' });
+
+        expect(http.request).toHaveBeenCalled();
+        let option: Request = http.request.calls.mostRecent().args[0];
+        expect(option.method).toEqual(RequestMethod.Patch);
+        expect(option.url).toEqual('http://api.greengerong.com/article');
+        expect(JSON.parse(option.getBody()).name).toEqual('greengerong');
     });
 
 });

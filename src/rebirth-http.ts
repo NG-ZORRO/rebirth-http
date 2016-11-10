@@ -353,6 +353,8 @@ export const DELETE = methodBuilder(RequestMethod.Delete);
 
 export const HEAD = methodBuilder(RequestMethod.Head);
 
+export const PATCH = methodBuilder(RequestMethod.Patch);
+
 
 export const REBIRTH_HTTP_PROVIDERS: Array<any> = [
     RebirthHttpProvider
