@@ -135,7 +135,7 @@ export class RebirthHttpProvider {
             response: (response: Observable<any>): Observable<any> => {
                 return response.map(res => {
                     let type = res.headers.get('Content-Type') || res.headers.get('content-type');
-                    if (type.indexOf('json') !== -1) {
+                    if (type && type.indexOf('json') !== -1) {
                         return res.json && res.json();
                     }
                 });
