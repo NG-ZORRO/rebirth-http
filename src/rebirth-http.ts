@@ -18,6 +18,10 @@ function isObject(value): boolean {
     return value !== null && typeof value === 'object';
 }
 
+function isUndefined(value) {
+    return typeof value === 'undefined';
+}
+
 export interface RebirthHttpInterceptor {
     request?: (option: RequestOptions) => RequestOptions | void;
     response?: (response: Observable<any>) => Observable<any> | void;
@@ -276,7 +280,7 @@ function methodBuilder(method: number, isJsonp = false) {
                 let search = new URLSearchParams();
                 if (pQuery) {
                     pQuery
-                        .filter(p => args[p.parameterIndex]) // filter out optional parameters
+                        .filter(p => !isUndefined(args[p.parameterIndex]))
                         .forEach(p => {
                             let key = p.key;
                             let value = args[p.parameterIndex];
