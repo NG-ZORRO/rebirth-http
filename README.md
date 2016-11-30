@@ -1,5 +1,13 @@
-# @rebirth/rebirth-http([![Build Status](https://travis-ci.org/greengerong/rebirth-http.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-http))
+# @rebirth/rebirth-http
+
+[![Build Status](https://travis-ci.org/greengerong/rebirth-http.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-http)
+[![dependcy](https://david-dm.org/greengerong/rebirth-http.svg)](https://david-dm.org/greengerong/rebirth-http)
+[![dev dependcy](https://david-dm.org/greengerong/rebirth-http/dev-status.svg)](https://david-dm.org/greengerong/rebirth-http?type=dev)
+[![npm version](https://img.shields.io/npm/v/rebirth-http.svg)](https://www.npmjs.com/package/rebirth-http)
+
 > Java JPA like http lib for Angular2
+
+===============================
 
 Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us the inspiration.
 
