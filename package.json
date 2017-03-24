@@ -1,6 +1,6 @@
 {
   "name": "rebirth-http",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "author": "greengerong<grzx2210@163.com>",
   "description": "Java JPA like http lib for Angular2",
   "main": "dist/index.js",
