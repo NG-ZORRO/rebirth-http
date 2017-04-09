@@ -5,10 +5,6 @@
   "description": "Java JPA like http lib for Angular2",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
   "scripts": {
     "ngc": "ngc -p . && cp package.json ./dist",
     "watch": "tsc --watch",
