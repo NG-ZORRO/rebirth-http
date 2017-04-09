@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import {
     Http,
     Jsonp,
@@ -7,7 +7,7 @@ import {
     Request,
     Response,
     RequestMethod,
-    RequestOptions
+    RequestOptions, RequestOptionsArgs
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -24,7 +24,7 @@ function isUndefined(value) {
 
 export interface RebirthHttpInterceptor {
     request?: (option: RequestOptions) => RequestOptions | void;
-    response?: (response: Observable<any>) => Observable<any> | void;
+    response?: (response: Observable<any>, request?: RequestOptions) => Observable<any> | void;
 }
 
 @Injectable()
@@ -81,12 +81,12 @@ export class RebirthHttpProvider {
             }, req);
     }
 
-    handleResponse(res: Observable<any>): Observable<any> {
+    handleResponse(res: Observable<any>, request?: RequestOptions): Observable<any> {
         return this.interceptors
             .filter(item => !!item.response)
             .reverse()
             .reduce((stream, item) => {
-                return <Observable<any>>(item.response(stream) || res);
+                return <Observable<any>>(item.response(stream, request) || res);
             }, res);
     }
 
@@ -154,7 +154,7 @@ export class RebirthHttp {
     protected jsonp: Jsonp;
     protected rebirthHttpProvider: RebirthHttpProvider;
 
-    constructor(option?: {http?: Http, jsonp?: Jsonp, rebirthHttpProvider ?: RebirthHttpProvider}) {
+    constructor(option?: { http?: Http, jsonp?: Jsonp, rebirthHttpProvider ?: RebirthHttpProvider }) {
         if (option) {
             this.http = option.http;
             this.jsonp = option.jsonp;
@@ -177,14 +177,101 @@ export class RebirthHttp {
         return req;
     }
 
-    protected responseInterceptor(res: Observable < any >): Observable < any > | void {
+    protected responseInterceptor(res: Observable < any >, request?: RequestOptions): Observable < any > | void {
+        if (this.rebirthHttpProvider) {
+            return this.rebirthHttpProvider.handleResponse(res, request);
+        }
+
+        return res;
+    }
+
+}
+
+export class RebirthHttpService {
+
+    enableJson: boolean;
+
+    constructor(private http: Http, @Optional() private rebirthHttpProvider: RebirthHttpProvider) {
+
+    }
+
+    private handleRequest<T>(requestOptions: RequestOptions): Observable<T> {
+        requestOptions = this.requestInterceptor(requestOptions) || requestOptions;
+        let observable = this.http.request(new Request(requestOptions));
+        if (this.enableJson) {
+            observable = observable.map(res => res.json());
+        }
+        return this.responseInterceptor(observable) || observable;
+    }
+
+    request<T>(url: string | Request, options?: RequestOptionsArgs): Observable<T> {
+        const requestOptions = new RequestOptions(options);
+        if (!(url instanceof Request)) {
+            requestOptions.url = url;
+        }
+        return this.handleRequest(requestOptions);
+    }
+
+    get<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Get;
+        return this.request<T>(url, options);
+    }
+
+    post<T>(url: string, body: any, options?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Post;
+        options.body = body;
+        return this.request<T>(url, options);
+    }
+
+
+    put<T>(url: string, body: any, options?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Put;
+        options.body = body;
+        return this.request<T>(url, options);
+    }
+
+    delete<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Delete;
+        return this.request<T>(url, options);
+    }
+
+    patch<T>(url: string, body: any, options?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Patch;
+        options.body = body;
+        return this.request<T>(url, options);
+    }
+
+    head<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Head;
+        return this.request<T>(url, options);
+    }
+
+    options<T>(url: string, options ?: RequestOptionsArgs): Observable<T> {
+        options = options || {};
+        options.method = RequestMethod.Options;
+        return this.request<T>(url, options);
+    }
+
+    protected  requestInterceptor(req: RequestOptions): RequestOptions | void {
+        if (this.rebirthHttpProvider) {
+            return this.rebirthHttpProvider.handleRequest(req);
+        }
+        return req;
+    }
+
+    protected responseInterceptor(res: Observable < any >): Observable <any> | void {
         if (this.rebirthHttpProvider) {
             return this.rebirthHttpProvider.handleResponse(res);
         }
 
         return res;
     }
-
 }
 
 export function BaseUrl(url: string) {
@@ -337,7 +424,7 @@ function methodBuilder(method: number, isJsonp = false) {
                 if (descriptor.enableJson) {
                     observable = observable.map(res => res.json());
                 }
-                return this.responseInterceptor(observable) || observable;
+                return this.responseInterceptor(observable, options) || observable;
             };
 
             return descriptor;
