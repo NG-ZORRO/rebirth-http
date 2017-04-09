@@ -1,6 +1,6 @@
 {
   "name": "rebirth-http",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "author": "greengerong<grzx2210@163.com>",
   "description": "Java JPA like http lib for Angular2",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "src"
   ],
   "scripts": {
-    "ngc": "ngc -p .",
+    "ngc": "ngc -p . && cp package.json ./dist",
     "watch": "tsc --watch",
     "prebuild": "rimraf dist",
     "build": "tsc",
