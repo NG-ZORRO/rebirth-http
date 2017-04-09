@@ -1,7 +1,6 @@
 import { Request, RequestMethod } from '@angular/http';
 import { RebirthHttp, JSONP, GET, POST, PUT, DELETE, PATCH, BaseUrl, Query, Path, Body } from './rebirth-http';
-import { Observable } from 'rxjs/Rx';
-import * as Rx from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 describe('rebirth-http', () => {
     let http, jsonp, mockService;

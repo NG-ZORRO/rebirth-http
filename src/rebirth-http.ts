@@ -195,15 +195,6 @@ export class RebirthHttpService {
 
     }
 
-    private handleRequest<T>(requestOptions: RequestOptions): Observable<T> {
-        requestOptions = this.requestInterceptor(requestOptions) || requestOptions;
-        let observable = this.http.request(new Request(requestOptions));
-        if (this.enableJson) {
-            observable = observable.map(res => res.json());
-        }
-        return this.responseInterceptor(observable) || observable;
-    }
-
     request<T>(url: string | Request, options?: RequestOptionsArgs): Observable<T> {
         const requestOptions = new RequestOptions(options);
         if (!(url instanceof Request)) {
@@ -265,13 +256,23 @@ export class RebirthHttpService {
         return req;
     }
 
-    protected responseInterceptor(res: Observable < any >): Observable <any> | void {
+    protected responseInterceptor(res: Observable <any>, request?: RequestOptions): Observable <any> | void {
         if (this.rebirthHttpProvider) {
-            return this.rebirthHttpProvider.handleResponse(res);
+            return this.rebirthHttpProvider.handleResponse(res, request);
         }
 
         return res;
     }
+
+    private handleRequest<T>(requestOptions: RequestOptions): Observable<T> {
+        requestOptions = this.requestInterceptor(requestOptions) || requestOptions;
+        let observable = this.http.request(new Request(requestOptions));
+        if (this.enableJson) {
+            observable = observable.map(res => res.json());
+        }
+        return this.responseInterceptor(observable, requestOptions) || observable;
+    }
+
 }
 
 export function BaseUrl(url: string) {
