@@ -180,6 +180,12 @@ npm install rebirth-http --save
 
 ```
 
+## RebirthHttpService
+
+You can use `RebirthHttpService` with `RebirthHttpProvider` when you did not want to use `Rebirth-http decorators`;
+
+`RebirthHttpService` has the same API like `Http` service. Only one different is  RebirthHttpService support Global interceptors(`RebirthHttpProvider`).
+
 ## API Docs
 
 ### rebirth-http
