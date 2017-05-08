@@ -22,6 +22,10 @@ function isUndefined(value) {
     return typeof value === 'undefined';
 }
 
+function isEmpty(value) {
+    return typeof value === 'undefined' || value === null
+}
+
 export interface RebirthHttpInterceptor {
     request?: (option: RequestOptions) => RequestOptions | void;
     response?: (response: Observable<any>, request?: RequestOptions) => Observable<any> | void;
@@ -381,8 +385,10 @@ function methodBuilder(method: number, isJsonp = false) {
                                         search.set(encodeURIComponent(k), encodeURIComponent(value[k]));
                                     }
                                 }
+                            } else if(!isEmpty(value)){
+                                search.set(encodeURIComponent(key), encodeURIComponent(value.toString()));
                             } else {
-                                search.set(encodeURIComponent(key), encodeURIComponent((value || '').toString()));
+                                search.set(encodeURIComponent(key), encodeURIComponent(''));
                             }
                         });
                 }
