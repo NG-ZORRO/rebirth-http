@@ -382,7 +382,7 @@ function methodBuilder(method: number, isJsonp = false) {
                                     }
                                 }
                             } else {
-                                search.set(encodeURIComponent(key), encodeURIComponent((value || '').toString()));
+                                search.set(encodeURIComponent(key), encodeURIComponent((value.toString() || '').toString()));
                             }
                         });
                 }
