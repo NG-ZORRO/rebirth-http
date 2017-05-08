@@ -13,6 +13,7 @@
     "lint": "tslint 'src/**/*.ts'",
     "pretest": "npm run lint",
     "test": "karma start",
+    "ci:travis": "npm run test && npm run ngc",
     "karma:debug": "karma start --auto-watch --no-single-run --browsers Chrome",
     "start": "npm run build",
     "typedoc": "typedoc",
