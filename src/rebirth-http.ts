@@ -23,7 +23,7 @@ function isUndefined(value) {
 }
 
 function isEmpty(value) {
-    return typeof value === 'undefined' || value === null
+    return typeof value === 'undefined' || value === null;
 }
 
 export interface RebirthHttpInterceptor {
@@ -385,10 +385,10 @@ function methodBuilder(method: number, isJsonp = false) {
                                         search.set(encodeURIComponent(k), encodeURIComponent(value[k]));
                                     }
                                 }
-                            } else if(!isEmpty(value)){
+                            } else if (!isEmpty(value)) {
                                 search.set(encodeURIComponent(key), encodeURIComponent(value.toString()));
                             } else {
-                                search.set(encodeURIComponent(key), encodeURIComponent(''));
+                                search.set(encodeURIComponent(key), '');
                             }
                         });
                 }
