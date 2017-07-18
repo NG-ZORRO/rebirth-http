@@ -379,6 +379,14 @@ function methodBuilder(method: number, isJsonp = false) {
 
                             if (value instanceof Date) {
                                 search.set(encodeURIComponent(key), encodeURIComponent((<Date>value).getTime().toString()));
+                            } else if (Array.isArray(value)) {
+                                for (var i = 0, len = value.length; i < len; i++) {
+                                    if (search.get(encodeURIComponent(key))) {
+                                        search.set(encodeURIComponent(key), search.get(encodeURIComponent(key)) + ',' + encodeURIComponent(value[i]));
+                                    }else {
+                                        search.set(encodeURIComponent(key), encodeURIComponent(value[i]));
+                                    }
+                                }
                             } else if (isObject(value)) {
                                 for (let k in value) {
                                     if (value.hasOwnProperty(k)) {
