@@ -18,6 +18,11 @@ describe('rebirth-http', () => {
             return null; // leave `return null` due to TypeScript Interface isn't visable in runtime
         }
 
+        @GET('article')
+        getArticlesByIds(@Query('ids') ids: number[]): Observable<any> {
+            return null; // leave `return null` due to TypeScript Interface isn't visable in runtime
+        }
+
         @GET('article/:id')
         getArticleByUrl(@Path('id') articleUrl: string): Observable<any> {
             return null;
@@ -63,6 +68,18 @@ describe('rebirth-http', () => {
         let option: Request = http.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Get);
         expect(option.url).toEqual('http://api.greengerong.com/article?pageSize=10&pageIndex=1');
+        expect(option.getBody()).toEqual('');
+    });
+
+    it('should construct a get request with array query', () => {
+        http.request.and.returnValue({});
+        mockService.getArticlesByIds([1, 2, 3, 4, 5]);
+
+        expect(http.request).toHaveBeenCalled();
+        let option: Request = http.request.calls.mostRecent().args[0];
+        expect(option.method).toEqual(RequestMethod.Get);
+        console.log(option.url, '==============');
+        expect(option.url).toEqual('http://api.greengerong.com/article?ids=1,2,3,4,5');
         expect(option.getBody()).toEqual('');
     });
 

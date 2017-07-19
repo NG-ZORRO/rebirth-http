@@ -181,7 +181,7 @@ export class RebirthHttp {
         return req;
     }
 
-    protected responseInterceptor(res: Observable < any >, request?: RequestOptions): Observable < any > | void {
+    protected responseInterceptor(res: Observable<any>, request?: RequestOptions): Observable<any> | void {
         if (this.rebirthHttpProvider) {
             return this.rebirthHttpProvider.handleResponse(res, request);
         }
@@ -260,7 +260,7 @@ export class RebirthHttpService {
         return req;
     }
 
-    protected responseInterceptor(res: Observable <any>, request?: RequestOptions): Observable <any> | void {
+    protected responseInterceptor(res: Observable<any>, request?: RequestOptions): Observable<any> | void {
         if (this.rebirthHttpProvider) {
             return this.rebirthHttpProvider.handleResponse(res, request);
         }
@@ -380,13 +380,7 @@ function methodBuilder(method: number, isJsonp = false) {
                             if (value instanceof Date) {
                                 search.set(encodeURIComponent(key), encodeURIComponent((<Date>value).getTime().toString()));
                             } else if (Array.isArray(value)) {
-                                for (var i = 0, len = value.length; i < len; i++) {
-                                    if (search.get(encodeURIComponent(key))) {
-                                        search.set(encodeURIComponent(key), search.get(encodeURIComponent(key)) + ',' + encodeURIComponent(value[i]));
-                                    }else {
-                                        search.set(encodeURIComponent(key), encodeURIComponent(value[i]));
-                                    }
-                                }
+                                search.set(encodeURIComponent(key), value.map((item) => encodeURIComponent(item)).join(','));
                             } else if (isObject(value)) {
                                 for (let k in value) {
                                     if (value.hasOwnProperty(k)) {
