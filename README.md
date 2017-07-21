@@ -95,6 +95,12 @@ npm install rebirth-http --save
       getArticleByJsonp(@Path("id") id: string, @Query("name") name: string): Observable<any> {
            return null;
       }
+      
+      @POST('file/upload')
+      @Headers({'Content-Type': 'mutipart/form-data'})
+      upload(@Body formData:FormData) : Observable<any> {
+          return null;
+      }
     }
 ```
 
