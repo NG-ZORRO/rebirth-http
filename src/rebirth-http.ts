@@ -133,6 +133,10 @@ export class RebirthHttpProvider {
         this.interceptors.push({
             request: (request: RequestOptions): void => {
                 request.headers = request.headers || new ngHeaders();
+                const contentType = request.headers.get('Content-Type') || request.headers.get('content-type');
+                if (contentType && contentType.indexOf('json') === -1) {
+                    return;
+                }
                 request.headers.set('Content-Type', 'application/json');
                 request.headers.set('Accept', 'application/json, text/javascript, */*;');
 
