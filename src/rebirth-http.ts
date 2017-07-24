@@ -147,7 +147,7 @@ export class RebirthHttpProvider {
             response: (response: Observable<any>): Observable<any> => {
                 return response.map(res => {
                     let type = res.headers.get('Content-Type') || res.headers.get('content-type');
-                    if (type && type.indexOf('json') !== -1) {
+                    if (type && type.indexOf('json') !== -1 && res.text()) {
                         return res.json && res.json();
                     }
                 });
@@ -336,6 +336,13 @@ export function Headers(headersDef: any) {
     };
 }
 
+export function Extra(extra: any) {
+    return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
+        descriptor.extra = extra;
+        return descriptor;
+    };
+}
+
 export function Produces(producesDef: string) {
     return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
         descriptor.enableJson = producesDef.toLocaleLowerCase() === 'json';
@@ -427,6 +434,7 @@ function methodBuilder(method: number, isJsonp = false) {
                     search
                 });
 
+                (options as any).extra = descriptor.extra;
                 options = this.requestInterceptor(options) || options;
                 let httpRequest = isJsonp ? this.jsonp : this.http;
                 if (!httpRequest) {
