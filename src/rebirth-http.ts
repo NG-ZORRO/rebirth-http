@@ -390,19 +390,19 @@ function methodBuilder(method: number, isJsonp = false) {
                             let value = args[p.parameterIndex];
 
                             if (value instanceof Date) {
-                                search.set(encodeURIComponent(key), encodeURIComponent((<Date>value).getTime().toString()));
+                                search.set(key, (<Date>value).getTime().toString());
                             } else if (Array.isArray(value)) {
-                                search.set(encodeURIComponent(key), value.map((item) => encodeURIComponent(item)).join(','));
+                                search.set(key, value.map((item) => item).join(','));
                             } else if (isObject(value)) {
                                 for (let k in value) {
                                     if (value.hasOwnProperty(k)) {
-                                        search.set(encodeURIComponent(k), encodeURIComponent(value[k]));
+                                        search.set(k, value[k]);
                                     }
                                 }
                             } else if (!isEmpty(value)) {
-                                search.set(encodeURIComponent(key), encodeURIComponent(value.toString()));
+                                search.set(key, value.toString());
                             } else {
-                                search.set(encodeURIComponent(key), '');
+                                search.set(key, '');
                             }
                         });
                 }
