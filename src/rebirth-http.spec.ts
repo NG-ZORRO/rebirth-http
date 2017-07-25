@@ -134,7 +134,7 @@ describe('rebirth-http', () => {
         expect(jsonp.request).toHaveBeenCalled();
         let option: Request = jsonp.request.calls.mostRecent().args[0];
         expect(option.method).toEqual(RequestMethod.Get);
-        expect(option.url).toEqual('http://api.greengerong.com/article/99?name=green%2520gerong');
+        expect(option.url).toEqual('http://api.greengerong.com/article/99?name=green%20gerong');
         expect(option.getBody()).toEqual('');
     });
 
