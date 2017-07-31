@@ -361,7 +361,15 @@ function methodBuilder(method: number, isJsonp = false) {
             let pBody = target[`${propertyKey}_Body_parameters`];
             let pHeader = target[`${propertyKey}_Header_parameters`];
 
+            const oldDescriptor = descriptor.value;
+
             descriptor.value = function (...args: any[]) {
+
+                // call method for test coverage
+                try {
+                    oldDescriptor.apply(this, args);
+                } catch (e) {
+                }
 
                 // Body
                 let body = "";
