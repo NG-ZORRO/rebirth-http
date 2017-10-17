@@ -9,7 +9,7 @@ describe('rebirth-http', () => {
     class MockService extends RebirthHttp {
 
         constructor() {
-            super({ http, jsonp });
+            super(http);
         }
 
         @GET('article')
@@ -60,15 +60,19 @@ describe('rebirth-http', () => {
         mockService = new MockService();
     });
 
-    it('should construct a get request', () => {
+    fit('should construct a get request', () => {
         http.request.and.returnValue({});
         mockService.getArticles(1, 10);
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Get);
-        expect(option.url).toEqual('http://api.greengerong.com/article?pageSize=10&pageIndex=1');
-        expect(option.getBody()).toEqual('');
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+        expect(method).toEqual('GET');
+        expect(url).toEqual('http://api.greengerong.com/article');
+        expect(option.params.get('pageSize')).toEqual('10');
+        expect(option.params.get('pageIndex')).toEqual('1');
+        expect(option.body).toEqual('');
     });
 
     it('should construct a get request with array query', () => {
@@ -76,11 +80,13 @@ describe('rebirth-http', () => {
         mockService.getArticlesByIds([1, 2, 3, 4, 5]);
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Get);
-        console.log(option.url, '==============');
-        expect(option.url).toEqual('http://api.greengerong.com/article?ids=1,2,3,4,5');
-        expect(option.getBody()).toEqual('');
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+        expect(method).toEqual('GET');
+        expect(url).toEqual('http://api.greengerong.com/article?=1,2,3,4,5');
+        expect(option.params.get('ids')).toEqual('1,2,3,4,5');
+        expect(option.body).toEqual('');
     });
 
     it('should construct a get request with path', () => {
@@ -88,10 +94,13 @@ describe('rebirth-http', () => {
         mockService.getArticleByUrl('green gerong');
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Get);
-        expect(option.url).toEqual('http://api.greengerong.com/article/green%20gerong');
-        expect(option.getBody()).toEqual('');
+
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+        expect(method).toEqual('GET');
+        expect(url).toEqual('http://api.greengerong.com/article/green%20gerong');
+        expect(option.body).toEqual('');
     });
 
     it('should construct a post request', () => {
@@ -99,10 +108,12 @@ describe('rebirth-http', () => {
         mockService.createArticle({ name: 'greengerong' });
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Post);
-        expect(option.url).toEqual('http://api.greengerong.com/article');
-        expect(JSON.parse(option.getBody()).name).toEqual('greengerong');
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+        expect(method).toEqual("POST");
+        expect(url).toEqual('http://api.greengerong.com/article');
+        expect(option.body.name).toEqual('greengerong');
     });
 
     it('should construct a put request', () => {
@@ -110,10 +121,13 @@ describe('rebirth-http', () => {
         mockService.updateArticle('99', { name: 'greengerong' });
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Put);
-        expect(option.url).toEqual('http://api.greengerong.com/article/99');
-        expect(JSON.parse(option.getBody()).name).toEqual('greengerong');
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+
+        expect(method).toEqual('PUT');
+        expect(url).toEqual('http://api.greengerong.com/article/99');
+        expect(option.body.name).toEqual('greengerong');
     });
 
     it('should construct a delete request', () => {
@@ -121,21 +135,27 @@ describe('rebirth-http', () => {
         mockService.deleteArticleById('99');
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Delete);
-        expect(option.url).toEqual('http://api.greengerong.com/article/99');
-        expect(option.getBody()).toEqual('');
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+
+        expect(method).toEqual('DELETE');
+        expect(url).toEqual('http://api.greengerong.com/article/99');
+        expect(option.body).toEqual('');
     });
 
     it('should construct a jsonp request', () => {
-        jsonp.request.and.returnValue({});
+        http.request.and.returnValue({});
         mockService.getArticleByJsonp('99', 'green gerong');
 
-        expect(jsonp.request).toHaveBeenCalled();
-        let option: Request = jsonp.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Get);
-        expect(option.url).toEqual('http://api.greengerong.com/article/99?name=green%20gerong');
-        expect(option.getBody()).toEqual('');
+        expect(http.request).toHaveBeenCalled();
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+
+        expect(method).toEqual('JSONP');
+        expect(url).toEqual('http://api.greengerong.com/article/99?name=green%20gerong');
+        expect(option.body).toEqual('');
     });
 
     it('should construct a patch request', () => {
@@ -143,10 +163,14 @@ describe('rebirth-http', () => {
         mockService.patchMethod({ name: 'greengerong' });
 
         expect(http.request).toHaveBeenCalled();
-        let option: Request = http.request.calls.mostRecent().args[0];
-        expect(option.method).toEqual(RequestMethod.Patch);
-        expect(option.url).toEqual('http://api.greengerong.com/article');
-        expect(JSON.parse(option.getBody()).name).toEqual('greengerong');
+
+        const method = http.request.calls.mostRecent().args[0];
+        const url = http.request.calls.mostRecent().args[1];
+        const option = http.request.calls.mostRecent().args[2];
+
+        expect(method).toEqual('PATCH');
+        expect(url).toEqual('http://api.greengerong.com/article');
+        expect(option.body.name).toEqual('greengerong');
     });
 
 });
