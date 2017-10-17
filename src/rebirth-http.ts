@@ -214,12 +214,30 @@ export function Extra(extra: any) {
     };
 }
 
-// export function Produces(producesDef: string) {
-//     return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
-//         descriptor.enableJson = producesDef.toLocaleLowerCase() === 'json';
-//         return descriptor;
-//     };
-// }
+export function RequestOptions(options: {
+    headers?: HttpHeaders | {
+        [header: string]: string | string[];
+    };
+    observe?: 'body' | 'response' | string,
+    params?: HttpParams | {
+        [param: string]: string | string[];
+    };
+    reportProgress?: boolean,
+    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text',
+    withCredentials?: boolean
+}) {
+    return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
+        options.headers = options.headers || {};
+        options.params = options.params || {};
+        options.observe = options.observe || 'body';
+        options.reportProgress = isUndefined(options.reportProgress) ? false : options.reportProgress;
+        options.responseType = options.responseType || 'json';
+        options.withCredentials = isUndefined(options.withCredentials) ? false : options.withCredentials;
+
+        descriptor.requestOptions = options;
+        return descriptor;
+    };
+}
 
 
 function methodBuilder(method: string) {
@@ -293,14 +311,14 @@ function methodBuilder(method: string) {
                 // set method specific headers
                 for (let k in descriptor.headers) {
                     if (descriptor.headers.hasOwnProperty(k)) {
-                        headers.append(k, descriptor.headers[k]);
+                        headers = headers.append(k, descriptor.headers[k]);
                     }
                 }
 
                 if (pHeader) {
                     for (let k in pHeader) {
                         if (pHeader.hasOwnProperty(k)) {
-                            headers.append(pHeader[k].key, args[pHeader[k].parameterIndex]);
+                            headers = headers.append(pHeader[k].key, args[pHeader[k].parameterIndex]);
                         }
                     }
                 }
@@ -309,14 +327,29 @@ function methodBuilder(method: string) {
                 let host = baseUrl ? baseUrl.replace(/\/$/, "") + '/' : '';
                 const requestUrl = `${host}${resUrl.replace(/^\//, "")}`;
 
+                let defaultOptions = descriptor.requestOptions;
+                if (defaultOptions) {
+                    for (let k in defaultOptions.headers) {
+                        if (defaultOptions.headers.hasOwnProperty(k)) {
+                            headers = headers.append(k, defaultOptions.headers[k]);
+                        }
+                    }
+
+                    for (let k in defaultOptions.params) {
+                        if (defaultOptions.params.hasOwnProperty(k)) {
+                            params = params.append(k, defaultOptions.params[k]);
+                        }
+                    }
+                }
+
                 let options = {
                     body,
                     headers,
-                    observe: 'body',
                     params,
-                    reportProgress: false,
-                    responseType: null,
-                    withCredentials: true
+                    observe: defaultOptions ? defaultOptions.observe : 'body',
+                    reportProgress: defaultOptions ? defaultOptions.reportProgress : false,
+                    responseType: defaultOptions ? defaultOptions.responseType : 'json',
+                    withCredentials: defaultOptions ? defaultOptions.withCredentials : false
                 };
 
                 (options as any).extra = descriptor.extra;
