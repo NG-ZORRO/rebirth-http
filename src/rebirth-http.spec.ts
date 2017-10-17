@@ -1,9 +1,9 @@
-import { Request, RequestMethod } from '@angular/http';
 import { RebirthHttp, JSONP, GET, POST, PUT, DELETE, PATCH, BaseUrl, Query, Path, Body } from './rebirth-http';
 import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 describe('rebirth-http', () => {
-    let http, jsonp, mockService;
+    let http: HttpClient, mockService;
 
     @BaseUrl('http://api.greengerong.com')
     class MockService extends RebirthHttp {

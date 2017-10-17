@@ -51,18 +51,15 @@ npm install rebirth-http --save
 ### rebirth-http service
 
 ```typescript
-    import { Injectable } from '@angular/core';
-    import { Http, Jsonp } from '@angular/http';
-    import { SearchResult } from './SearchResult';
-    import { Article } from './article';
+    import { RebirthHttp, JSONP, GET, POST, PUT, DELETE, PATCH, BaseUrl, Query, Path, Body } from 'rebirth-http';
     import { Observable } from 'rxjs/Observable';
-    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, POST, PUT, DELETE, JSONP, Query, Path, Body } from  'rebirth-http';
-    
+    import { HttpClient } from '@angular/common/http';
+
     @Injectable()
     export class ArticleService extends RebirthHttp {
     
-      constructor(http: Http, rebirthHttpProvider: RebirthHttpProvider, jsonp: Jsonp) {
-        super({ http, jsonp, rebirthHttpProvider});
+      constructor(http: HttpClient) {
+        super(http);
       }
     
       @GET("article")
@@ -125,15 +122,9 @@ npm install rebirth-http --save
     
         rebirthHttpProvider
           .baseUrl(config.api.host)
-          .json()
           .addInterceptor({
-            request: request => {
-              console.log('Global interceptors(request)', request);
-            },
-            response: (stream) => stream.map(response => {
-              console.log('Global interceptors(response)', response);
-              return response;
-            })
+            request: request => console.log('Global interceptors(request)', request),
+            response: (response) =>  console.log('Global interceptors(response)', response)
           });
       }
     }
@@ -148,7 +139,6 @@ npm install rebirth-http --save
     import { AuthorizationService } from 'rebirth-permission';
     import { RebirthHttpProvider } from 'rebirth-http';
     import { CurrentUser } from '../login/CurrentUser';
-    import { Response } from '@angular/http';
     import { Observable } from 'rxjs/Observable';
     import { Router } from '@angular/router';
     
@@ -173,24 +163,15 @@ npm install rebirth-http --save
         }
         
         // setup unauthorization response error interceptor
-        rebirthHttpProvider.addResponseErrorInterceptor((err: Response) => {
+        rebirthHttpProvider.addResponseErrorInterceptor((err) => {
           if (err.status === 401 && (err.url.indexOf('/manage/login') === -1)) {
             router.navigateByUrl('/manage/login');
-            return Observable.empty();
           }
-    
-          return Observable.throw(err);
         });
       }
     }
 
 ```
-
-## RebirthHttpService
-
-You can use `RebirthHttpService` with `RebirthHttpProvider` when you did not want to use `Rebirth-http decorators`;
-
-`RebirthHttpService` has the same API like `Http` service. Only one different is  RebirthHttpService support Global interceptors(`RebirthHttpProvider`).
 
 ## API Docs
 
@@ -212,7 +193,10 @@ You can use `RebirthHttpService` with `RebirthHttpProvider` when you did not wan
 - `@JSONP(url: String)`
 - `@PATCH(url: String)`
 - `@HEAD(url: String)`
-- `@Headers(headers: Object)`
+- `@OPTIONS(url: String)`
+- `@Headers(headers: any)`
+- `@RequestOptions(headers: any)`
+- `@Extra(headers: any)`
 
 ### Parameter decorators:
 - `@Path(key: string)`
