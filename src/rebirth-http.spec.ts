@@ -60,7 +60,7 @@ describe('rebirth-http', () => {
         mockService = new MockService();
     });
 
-    fit('should construct a get request', () => {
+    it('should construct a get request', () => {
         http.request.and.returnValue({});
         mockService.getArticles(1, 10);
 
@@ -84,7 +84,7 @@ describe('rebirth-http', () => {
         const url = http.request.calls.mostRecent().args[1];
         const option = http.request.calls.mostRecent().args[2];
         expect(method).toEqual('GET');
-        expect(url).toEqual('http://api.greengerong.com/article?=1,2,3,4,5');
+        expect(url).toEqual('http://api.greengerong.com/article');
         expect(option.params.get('ids')).toEqual('1,2,3,4,5');
         expect(option.body).toEqual('');
     });
@@ -154,7 +154,8 @@ describe('rebirth-http', () => {
         const option = http.request.calls.mostRecent().args[2];
 
         expect(method).toEqual('JSONP');
-        expect(url).toEqual('http://api.greengerong.com/article/99?name=green%20gerong');
+        expect(url).toEqual('http://api.greengerong.com/article/99');
+        expect(option.params.get('name')).toEqual('green gerong');
         expect(option.body).toEqual('');
     });
 
