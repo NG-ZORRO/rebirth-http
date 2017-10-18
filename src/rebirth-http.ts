@@ -134,14 +134,14 @@ export class RebirthHttpInterceptors implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
         const httpRequest = this.rebirthHttpProvider.handleRequest(req);
         return next.handle(httpRequest)
-            .do(response => this.rebirthHttpProvider.handleResponse(response));
+            .do(response => this.rebirthHttpProvider.handleResponse(response, httpRequest));
     }
 
 }
 
 export class RebirthHttp {
 
-    constructor(private http: HttpClient) {
+    constructor(protected http: HttpClient) {
 
     }
 
