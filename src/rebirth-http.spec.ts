@@ -56,7 +56,6 @@ describe('rebirth-http', () => {
 
     beforeEach(() => {
         http = jasmine.createSpyObj('http', ['request']);
-        jsonp = jasmine.createSpyObj('jsonp', ['request']);
         mockService = new MockService();
     });
 
