@@ -26,8 +26,6 @@ npm install rebirth-http --save
     @NgModule({
       imports: [
         BrowserModule,
-        HttpModule,
-        JsonpModule,
         RebirthHttpModule
       ],
       declarations: [
@@ -45,7 +43,6 @@ npm install rebirth-http --save
     }
 
 
-    platformBrowserDynamic().bootstrapModule(AppModule)
 ```
    
 ### rebirth-http service
@@ -94,7 +91,6 @@ npm install rebirth-http --save
       }
       
       @POST('file/upload')
-      @Headers({'Content-Type': 'mutipart/form-data'})
       upload(@Body formData:FormData) : Observable<any> {
           return null;
       }
@@ -124,7 +120,7 @@ npm install rebirth-http --save
           .baseUrl(config.api.host)
           .addInterceptor({
             request: request => console.log('Global interceptors(request)', request),
-            response: (response) =>  console.log('Global interceptors(response)', response)
+            response: response =>  console.log('Global interceptors(response)', response)
           });
       }
     }
@@ -139,7 +135,6 @@ npm install rebirth-http --save
     import { AuthorizationService } from 'rebirth-permission';
     import { RebirthHttpProvider } from 'rebirth-http';
     import { CurrentUser } from '../login/CurrentUser';
-    import { Observable } from 'rxjs/Observable';
     import { Router } from '@angular/router';
     
     @Component({
