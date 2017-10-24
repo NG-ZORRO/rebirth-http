@@ -70,7 +70,7 @@ export class RebirthHttpProvider {
     addResponseErrorInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
         return this.addInterceptor({
             response: (response: HttpEvent<any>): HttpEvent<any> | void => {
-                if (event instanceof HttpResponse && !event.ok) {
+                if (response instanceof HttpResponse && !response.ok) {
                     return interceptor(response) || response;
                 }
             }
@@ -81,8 +81,8 @@ export class RebirthHttpProvider {
     handleRequest(req: HttpRequest<any>): HttpRequest<any> {
         return this.interceptors
             .filter(item => !!item.request)
-            .reduce((req, item) => {
-                return (item.request(req) || req);
+            .reduce((httpEvent, item) => {
+                return (item.request(httpEvent) || httpEvent);
             }, req);
     }
 
@@ -108,7 +108,7 @@ export class RebirthHttpProvider {
                 }
 
                 host = host.replace(/\/$/, "");
-                let url = request.url.replace(/^\//, "");
+                const url = request.url.replace(/^\//, "");
                 return request.clone({ url: `${host}/${url}` });
             }
         });
