@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 import {
-    HttpClient,
+    HttpClient, HttpErrorResponse,
     HttpEvent,
     HttpHandler,
     HttpHeaderResponse,
@@ -31,7 +33,7 @@ function isEmpty(value) {
 
 export interface RebirthHttpInterceptor {
     request?: (option: HttpRequest<any>) => HttpRequest<any> | void;
-    response?: (response: HttpEvent<any>, request?: HttpRequest<any>) => HttpEvent<any> | void;
+    response?: (response: HttpEvent<any> | HttpErrorResponse, request?: HttpRequest<any>) => HttpEvent<any> | void;
 }
 
 @Injectable()
@@ -134,7 +136,8 @@ export class RebirthHttpInterceptors implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
         const httpRequest = this.rebirthHttpProvider.handleRequest(req);
         return next.handle(httpRequest)
-            .do(response => this.rebirthHttpProvider.handleResponse(response, httpRequest));
+            .map(response => this.rebirthHttpProvider.handleResponse(response, httpRequest) || response)
+            .catch(error => Observable.throw(this.rebirthHttpProvider.handleResponse(error, httpRequest) || error));
     }
 
 }
