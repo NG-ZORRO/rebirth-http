@@ -61,19 +61,19 @@ export class RebirthHttpProvider {
         });
     }
 
-    addResponseInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
+    addResponseInterceptor(interceptor: (res: any, request?: HttpRequest<any>) => any): RebirthHttpProvider {
         return this.addInterceptor({
-            response: (response: HttpEvent<any>): HttpEvent<any> | void => {
-                return interceptor(response) || response;
+            response: (response: HttpEvent<any>, request?: HttpRequest<any>): HttpEvent<any> | void => {
+                return interceptor(response, request) || response;
             }
         });
     }
 
-    addResponseErrorInterceptor(interceptor: (res: any) => any): RebirthHttpProvider {
+    addResponseErrorInterceptor(interceptor: (res: any, request?: HttpRequest<any>) => any): RebirthHttpProvider {
         return this.addInterceptor({
-            response: (response: HttpEvent<any>): HttpEvent<any> | void => {
-                if (response instanceof HttpResponse && !response.ok) {
-                    return interceptor(response) || response;
+            response: (response: HttpEvent<any> | HttpErrorResponse, request?: HttpRequest<any>): HttpEvent<any> | void => {
+                if (response instanceof HttpErrorResponse) {
+                    return interceptor(response, request) || response;
                 }
             }
         });
