@@ -289,19 +289,19 @@ function methodBuilder(method: string) {
                             let result = ps;
 
                             if (value instanceof Date) {
-                                result = ps.set(key, (<Date>value).getTime().toString());
+                                result = result.set(key, (<Date>value).getTime().toString());
                             } else if (Array.isArray(value)) {
-                                result = ps.set(key, value.map((item) => item).join(','));
+                                result = result.set(key, value.map((item) => item).join(','));
                             } else if (isObject(value)) {
                                 for (let k in value) {
                                     if (value.hasOwnProperty(k)) {
-                                        result = ps.set(k, value[k]);
+                                        result = result.set(k, value[k]);
                                     }
                                 }
                             } else if (!isEmpty(value)) {
-                                result = ps.set(key, value.toString());
+                                result = result.set(key, value.toString());
                             } else {
-                                result = ps.set(key, '');
+                                result = result.set(key, '');
                             }
 
                             return result;
