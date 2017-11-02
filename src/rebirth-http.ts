@@ -294,7 +294,7 @@ function methodBuilder(method: string) {
                                 result = result.set(key, value.map((item) => item).join(','));
                             } else if (isObject(value)) {
                                 for (let k in value) {
-                                    if (value.hasOwnProperty(k)) {
+                                    if (value.hasOwnProperty(k) && !isUndefined(value[k])) {
                                         result = result.set(k, value[k]);
                                     }
                                 }
