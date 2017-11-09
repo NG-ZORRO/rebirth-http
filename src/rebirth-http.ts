@@ -6,6 +6,7 @@ import 'rxjs/add/observable/throw';
 import {
     HttpClient, HttpErrorResponse,
     HttpEvent,
+    HttpEventType,
     HttpHandler,
     HttpHeaderResponse,
     HttpHeaders,
@@ -93,7 +94,7 @@ export class RebirthHttpProvider {
             .filter(item => !!item.response)
             .reverse()
             .reduce((httpEvent, item) => {
-                return item.response(httpEvent, request) || response;
+                return item.response(httpEvent, request) || httpEvent;
             }, response);
     }
 
@@ -136,7 +137,12 @@ export class RebirthHttpInterceptors implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
         const httpRequest = this.rebirthHttpProvider.handleRequest(req);
         return next.handle(httpRequest)
-            .map(response => this.rebirthHttpProvider.handleResponse(response, httpRequest) || response)
+            .map(response => {
+                if ([HttpEventType.Response, HttpEventType.ResponseHeader].indexOf(response.type) !== -1) {
+                    return (this.rebirthHttpProvider.handleResponse(response, httpRequest) || response);
+                }
+                return response;
+            })
             .catch(error => Observable.throw(this.rebirthHttpProvider.handleResponse(error, httpRequest) || error));
     }
 
