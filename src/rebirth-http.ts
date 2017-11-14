@@ -31,6 +31,11 @@ function isEmpty(value) {
     return typeof value === 'undefined' || value === null;
 }
 
+export function cloneRequest(request: HttpRequest<any>, options: any) {
+    const req = request.clone(options);
+    (req as any).extra = (request as any).extra;
+    return req;
+}
 
 export interface RebirthHttpInterceptor {
     request?: (option: HttpRequest<any>) => HttpRequest<any> | void;
@@ -112,7 +117,7 @@ export class RebirthHttpProvider {
 
                 host = host.replace(/\/$/, "");
                 const url = request.url.replace(/^\//, "");
-                return request.clone({ url: `${host}/${url}` });
+                return cloneRequest(request, { url: `${host}/${url}` });
             }
         });
 
@@ -122,7 +127,7 @@ export class RebirthHttpProvider {
     headers(headers: { [name: string]: string | string[]; } = {}): RebirthHttpProvider {
         return this.addInterceptor({
             request: (request: HttpRequest<any>): HttpRequest<any> => {
-                return request.clone({ setHeaders: headers });
+                return cloneRequest(request, { setHeaders: headers });
             }
         });
     }
