@@ -31,12 +31,6 @@ function isEmpty(value) {
     return typeof value === 'undefined' || value === null;
 }
 
-export function cloneRequest(request: HttpRequest<any>, options: any) {
-    const req = request.clone(options);
-    (req as any).extra = (request as any).extra;
-    return req;
-}
-
 export interface RebirthHttpInterceptor {
     request?: (option: HttpRequest<any>) => HttpRequest<any> | void;
     response?: (response: HttpEvent<any> | HttpErrorResponse, request?: HttpRequest<any>) => HttpEvent<any> | void;
@@ -117,7 +111,7 @@ export class RebirthHttpProvider {
 
                 host = host.replace(/\/$/, "");
                 const url = request.url.replace(/^\//, "");
-                return cloneRequest(request, { url: `${host}/${url}` });
+                return request.clone({ url: `${host}/${url}` })
             }
         });
 
@@ -127,7 +121,7 @@ export class RebirthHttpProvider {
     headers(headers: { [name: string]: string | string[]; } = {}): RebirthHttpProvider {
         return this.addInterceptor({
             request: (request: HttpRequest<any>): HttpRequest<any> => {
-                return cloneRequest(request, { setHeaders: headers });
+                return request.clone({ setHeaders: headers });
             }
         });
     }
@@ -221,13 +215,6 @@ export function Headers(headersDef: any) {
     };
 }
 
-export function Extra(extra: any) {
-    return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
-        descriptor.extra = extra;
-        return descriptor;
-    };
-}
-
 export function RequestOptions(options: {
     headers?: HttpHeaders | {
         [header: string]: string | string[];
@@ -241,8 +228,6 @@ export function RequestOptions(options: {
     withCredentials?: boolean
 }) {
     return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
-        options.headers = options.headers || {};
-        options.params = options.params || {};
         options.observe = options.observe || 'body';
         options.reportProgress = isUndefined(options.reportProgress) ? false : options.reportProgress;
         options.responseType = options.responseType || 'json';
@@ -343,16 +328,16 @@ function methodBuilder(method: string) {
 
                 let defaultOptions = descriptor.requestOptions;
                 if (defaultOptions) {
-                    for (let k in defaultOptions.headers) {
-                        if (defaultOptions.headers.hasOwnProperty(k)) {
-                            headers = headers.append(k, defaultOptions.headers[k]);
-                        }
+                    let headerKeys = defaultOptions.headers ? defaultOptions.headers.keys() : [];
+                    for (var i = 0; i < headerKeys.length; i++) {
+                        var k = headerKeys[i];
+                        headers = headers.append(k, defaultOptions.headers.get(k));
                     }
 
-                    for (let k in defaultOptions.params) {
-                        if (defaultOptions.params.hasOwnProperty(k)) {
-                            params = params.append(k, defaultOptions.params[k]);
-                        }
+                    let paramKeys = defaultOptions.params ? defaultOptions.params.keys() : [];
+                    for (var i = 0; i < paramKeys.length; i++) {
+                        var k = paramKeys[i];
+                        params = params.append(k, defaultOptions.params.get(k));
                     }
                 }
 
@@ -366,7 +351,6 @@ function methodBuilder(method: string) {
                     withCredentials: defaultOptions ? defaultOptions.withCredentials : false
                 };
 
-                (options as any).extra = descriptor.extra;
                 return this.http.request(method, requestUrl, options);
             };
 
