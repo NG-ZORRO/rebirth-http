@@ -121,7 +121,17 @@ export class RebirthHttpProvider {
     headers(headers: { [name: string]: string | string[]; } = {}): RebirthHttpProvider {
         return this.addInterceptor({
             request: (request: HttpRequest<any>): HttpRequest<any> => {
-                return request.clone({ setHeaders: headers });
+                let result = headers;
+                if (request.headers) {
+                    result = Object.keys(headers).reduce((obj, key) => {
+                        if (!request.headers.has(key)) {
+                            obj[key] = headers[key];
+                        }
+                        return obj;
+                    }, {});
+                }
+
+                return request.clone({ setHeaders: result });
             }
         });
     }
