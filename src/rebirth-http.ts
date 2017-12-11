@@ -111,7 +111,7 @@ export class RebirthHttpProvider {
 
                 host = host.replace(/\/$/, "");
                 const url = request.url.replace(/^\//, "");
-                return request.clone({ url: `${host}/${url}` })
+                return request.clone({ url: `${host}/${url}` });
             }
         });
 
