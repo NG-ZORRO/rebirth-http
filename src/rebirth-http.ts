@@ -339,14 +339,14 @@ function methodBuilder(method: string) {
                 let defaultOptions = descriptor.requestOptions;
                 if (defaultOptions) {
                     let headerKeys = defaultOptions.headers ? defaultOptions.headers.keys() : [];
-                    for (var i = 0; i < headerKeys.length; i++) {
-                        var k = headerKeys[i];
+                    for (let i = 0; i < headerKeys.length; i++) {
+                        let k = headerKeys[i];
                         headers = headers.append(k, defaultOptions.headers.get(k));
                     }
 
                     let paramKeys = defaultOptions.params ? defaultOptions.params.keys() : [];
-                    for (var i = 0; i < paramKeys.length; i++) {
-                        var k = paramKeys[i];
+                    for (let i = 0; i < paramKeys.length; i++) {
+                        let k = paramKeys[i];
                         params = params.append(k, defaultOptions.params.get(k));
                     }
                 }
