@@ -118,13 +118,13 @@ export class RebirthHttpProvider {
         return this;
     }
 
-    headers(headers: { [name: string]: string | string[]; } = {}): RebirthHttpProvider {
+    headers(headers: { [name: string]: string | string[]; } = {}, override = false): RebirthHttpProvider {
         return this.addInterceptor({
             request: (request: HttpRequest<any>): HttpRequest<any> => {
                 let result = headers;
                 if (request.headers) {
                     result = Object.keys(headers).reduce((obj, key) => {
-                        if (!request.headers.has(key)) {
+                        if (override || !request.headers.has(key)) {
                             obj[key] = headers[key];
                         }
                         return obj;
