@@ -28,27 +28,27 @@ describe('rebirth-http', () => {
             return null;
         }
 
-        @POST("article")
+        @POST('article')
         createArticle(@Body article: any): Observable<any> {
             return null;
         }
 
-        @PUT("article/:id")
-        updateArticle(@Path("id") id: string, @Body article: any): Observable<any> {
+        @PUT('article/:id')
+        updateArticle(@Path('id') id: string, @Body article: any): Observable<any> {
             return null;
         }
 
-        @DELETE("article/:id")
-        deleteArticleById(@Path("id") id: string): Observable<any> {
+        @DELETE('article/:id')
+        deleteArticleById(@Path('id') id: string): Observable<any> {
             return null;
         }
 
-        @JSONP("article/:id")
-        getArticleByJsonp(@Path("id") id: string, @Query('name') name: string): Observable<any> {
+        @JSONP('article/:id')
+        getArticleByJsonp(@Path('id') id: string, @Query('name') name: string): Observable<any> {
             return null;
         }
 
-        @PATCH("article")
+        @PATCH('article')
         patchMethod(@Body article: any): Observable<any> {
             return null;
         }
@@ -110,7 +110,7 @@ describe('rebirth-http', () => {
         const method = http.request.calls.mostRecent().args[0];
         const url = http.request.calls.mostRecent().args[1];
         const option = http.request.calls.mostRecent().args[2];
-        expect(method).toEqual("POST");
+        expect(method).toEqual('POST');
         expect(url).toEqual('http://api.greengerong.com/article');
         expect(option.body.name).toEqual('greengerong');
     });

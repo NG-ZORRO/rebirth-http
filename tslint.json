@@ -13,7 +13,6 @@
       "spaces"
     ],
     "label-position": true,
-    "label-undefined": true,
     "max-line-length": [
       true,
       200
@@ -37,8 +36,6 @@
     ],
     "no-construct": true,
     "no-debugger": true,
-    "no-duplicate-key": true,
-    "no-duplicate-variable": true,
     "no-empty": false,
     "no-eval": true,
     "no-inferrable-types": true,
@@ -48,7 +45,6 @@
     "no-trailing-whitespace": false,
     "no-unused-expression": true,
     "no-unused-variable": false,
-    "no-unreachable": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
@@ -62,14 +58,13 @@
     ],
     "quotemark": [
       true,
-      "avoid-escape"
+      "single"
     ],
     "radix": true,
     "semicolon": true,
     "trailing-comma": [
       false,
       {
-        "singleline": "never",
         "multiline": "always"
       }
     ],

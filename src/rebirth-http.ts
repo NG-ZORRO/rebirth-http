@@ -109,8 +109,8 @@ export class RebirthHttpProvider {
                     return request;
                 }
 
-                host = host.replace(/\/$/, "");
-                const url = request.url.replace(/^\//, "");
+                host = host.replace(/\/$/, '');
+                const url = request.url.replace(/^\//, '');
                 return request.clone({ url: `${host}/${url}` });
             }
         });
@@ -210,13 +210,13 @@ function paramBuilder(paramName: string, optional = false) {
     };
 }
 
-export const Path = paramBuilder("Path");
+export const Path = paramBuilder('Path');
 
-export const Query = paramBuilder("Query", true);
+export const Query = paramBuilder('Query', true);
 
-export const Body = paramBuilder("Body")("Body");
+export const Body = paramBuilder('Body')('Body');
 
-export const Header = paramBuilder("Header");
+export const Header = paramBuilder('Header');
 
 export function Headers(headersDef: any) {
     return function (target: RebirthHttp, propertyKey: string, descriptor: any) {
@@ -269,7 +269,7 @@ function methodBuilder(method: string) {
                 }
 
                 // Body
-                let body = "";
+                let body = '';
                 if (pBody) {
                     body = args[pBody[0].parameterIndex];
                 }
@@ -333,8 +333,8 @@ function methodBuilder(method: string) {
                 }
 
                 let baseUrl = this.getBaseUrl();
-                let host = baseUrl ? baseUrl.replace(/\/$/, "") + '/' : '';
-                const requestUrl = `${host}${resUrl.replace(/^\//, "")}`;
+                let host = baseUrl ? baseUrl.replace(/\/$/, '') + '/' : '';
+                const requestUrl = `${host}${resUrl.replace(/^\//, '')}`;
 
                 let defaultOptions = descriptor.requestOptions;
                 if (defaultOptions) {
