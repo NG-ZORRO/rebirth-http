@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import {
-    HttpClient, HttpErrorResponse,
+    HttpClient,
+    HttpErrorResponse,
     HttpEvent,
     HttpEventType,
     HttpHandler,
@@ -146,13 +145,15 @@ export class RebirthHttpInterceptors implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
         const httpRequest = this.rebirthHttpProvider.handleRequest(req);
         return next.handle(httpRequest)
-            .map(response => {
-                if ([HttpEventType.Response, HttpEventType.ResponseHeader].indexOf(response.type) !== -1) {
-                    return (this.rebirthHttpProvider.handleResponse(response, httpRequest) || response);
-                }
-                return response;
-            })
-            .catch(error => Observable.throw(this.rebirthHttpProvider.handleResponse(error, httpRequest) || error));
+            .pipe(
+                map(response => {
+                    if ([HttpEventType.Response, HttpEventType.ResponseHeader].indexOf(response.type) !== -1) {
+                        return (this.rebirthHttpProvider.handleResponse(response, httpRequest) || response);
+                    }
+                    return response;
+                }),
+                catchError(error => throwError(this.rebirthHttpProvider.handleResponse(error, httpRequest) || error))
+            );
     }
 
 }

@@ -1,6 +1,6 @@
 {
   "name": "rebirth-http",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "author": "greengerong<grzx2210@163.com>",
   "description": "Java JPA like http lib for Angular2",
   "main": "index.js",
@@ -64,7 +64,6 @@
     "raw-loader": "0.5.1",
     "rimraf": "^2.5.2",
     "rxjs": "^6.1.0",
-    "rxjs-compat": "^6.1.0",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "systemjs": "0.19.38",
