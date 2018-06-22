@@ -1,11 +1,12 @@
 {
   "name": "rebirth-http-lib",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test rebirth-http --watch=false --code-coverage",
+    "build-lib": "ng build --prod rebirth-http",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
