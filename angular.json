@@ -116,6 +116,46 @@
           }
         }
       }
+    },
+    "rebirth-http": {
+      "root": "projects/rebirth-http",
+      "sourceRoot": "projects/rebirth-http/src",
+      "projectType": "library",
+      "prefix": "re",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/rebirth-http/tsconfig.lib.json",
+            "project": "projects/rebirth-http/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/rebirth-http/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/rebirth-http/src/test.ts",
+            "tsConfig": "projects/rebirth-http/tsconfig.spec.json",
+            "karmaConfig": "projects/rebirth-http/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/rebirth-http/tsconfig.lib.json",
+              "projects/rebirth-http/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "rebirth-http-lib"
