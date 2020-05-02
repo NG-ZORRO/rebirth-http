@@ -17,27 +17,27 @@ Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us 
 npm install rebirth-http --save
 ```
 
-## How to use?
+## Usage
 
-### Register `RebirthHttpModuleS`
+### Step 1, Register `RebirthHttpModule`
 
 ```typescript
-import { RebirthHttpModule } from 'rebirth-http';
+import { RebirthHttpModule } from '@ng-zorro/rebirth-http';
 
 @NgModule({
   imports: [BrowserModule, RebirthHttpModule],
   declarations: [AppComponent],
-  providers: [...ENV_PROVIDERS, ...APP_PROVIDERS],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
 
-### rebirth-http service
+### Step 2, Create REST Clients
 
-```typescript
+```ts
 import {
-  RebirthHttp,
+  Any,
+  RebirthHttpClient,
   JSONP,
   GET,
   POST,
@@ -53,7 +53,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class ArticleService extends RebirthHttp {
+export class ArticleService extends RebirthHttpClient {
   constructor(http: HttpClient) {
     super(http);
   }
@@ -63,17 +63,17 @@ export class ArticleService extends RebirthHttp {
     @Query('pageIndex') pageIndex = 1,
     @Query('pageSize') pageSize = 10
   ): Observable<SearchResult<Article>> {
-    return null; // leave `return null` due to TypeScript Interface isn't visable in runtime
+    return Any; // return Any as a placeholder
   }
 
   @GET('article/:id')
   getArticleByUrl(@Path('id') articleUrl: string): Observable<Article> {
-    return null;
+    return Any;
   }
 
   @POST('article')
   createArticle(@Body article: Article): Observable {
-    return null;
+    return Any;
   }
 
   @PUT('article/:id')
@@ -81,41 +81,39 @@ export class ArticleService extends RebirthHttp {
     @Path('id') id: string,
     @Body article: Article
   ): Observable<Article> {
-    return null;
+    return Any;
   }
 
   @DELETE('article/:id')
   deleteArticleById(@Path('id') id: string): Observable<Article> {
-    return null;
+    return Any;
   }
 
   @JSONP('article/:id')
   getArticleByJsonp(
     @Path('id') id: string,
     @Query('name') name: string
-  ): Observable<any> {
-    return null;
+  ): Observable<Article> {
+    return Any;
   }
 
   @POST('file/upload')
   upload(@Body formData: FormData): Observable<any> {
-    return null;
+    return Any;
   }
 }
 ```
 
-### Global interceptors
+### Interceptor
+
+<!-- TODO: provide a factory injection token... This is not elegant. -->
 
 ```typescript
-import { RebirthHttpProvider } from 'rebirth-http';
+import { config } from '@/config';
+import { RebirthHttpProvider } from '@ng-zorro/rebirth-http';
 
 @Component({
-  selector: 'app',
-  pipes: [],
-  providers: [],
-  directives: [],
-  styles: [require('./app.scss')],
-  template: '<router-outlet></router-outlet>',
+  selector: 'app-root',
 })
 export class AppComponent {
   constructor(rebirthHttpProvider: RebirthHttpProvider) {
@@ -129,76 +127,38 @@ export class AppComponent {
 }
 ```
 
-### setup `jwt` token and unauthorization http error
+## API
 
-```typescript
-import { Component } from '@angular/core';
-import { BlogFooterComponent } from '../blog-footer';
-import { BlogHeaderComponent } from '../blog-header';
-import { AuthorizationService } from 'rebirth-permission';
-import { RebirthHttpProvider } from 'rebirth-http';
-import { CurrentUser } from '../login/CurrentUser';
-import { Router } from '@angular/router';
+### RebirthHttpClient
 
-@Component({
-  selector: 'manage-app',
-  pipes: [],
-  providers: [],
-  directives: [BlogHeaderComponent, BlogFooterComponent],
-  styles: [require('./manage-app.scss')],
-  template: require('./manage-app.html'),
-})
-export class ManageAppComponent {
-  constructor(
-    authorizationService: AuthorizationService,
-    router: Router,
-    rebirthHttpProvider: RebirthHttpProvider
-  ) {
-    // setup jwt token
-    const currentUser = <CurrentUser>authorizationService.getCurrentUser();
-    if (currentUser && currentUser.token) {
-      rebirthHttpProvider.headers({ Authorization: currentUser.token });
-    }
+- `getBaseUrl(): string`: returns the base url of the RebirthHttp client
+- `getDefaultHeaders(): { [name: string]: string }`: returns the default headers of RebirthHttp in a key-value pair
 
-    // setup unauthorization response error interceptor
-    rebirthHttpProvider.addResponseErrorInterceptor((err) => {
-      if (err.status === 401 && err.url.indexOf('/manage/login') === -1) {
-        router.navigateByUrl('/manage/login');
-      }
-    });
-  }
-}
-```
+### Class Decorators
 
-## API Docs
+These decorators should be used on classes that inherit `RebirthHttpClient`.
 
-### rebirth-http
+- `@BaseUrl(url: string)`: change the base url of a RebirthHttpClient
+- `@DefaultHeaders(headers: Object)`: change the default header of a RebirthHttpClient
 
-#### Methods:
+### Method Decorators
 
-- `getBaseUrl(): string`: returns the base url of RebirthHttp
-- `getDefaultHeaders(): Object`: returns the default headers of RebirthHttp in a key-value pair
+#### HTTP Method Decorators
 
-### Class decorators:
-
-- `@BaseUrl(url: string)`
-- `@DefaultHeaders(headers: Object)`
-
-### Method decorators:
-
-- `@GET(url: String)`
-- `@POST(url: String)`
-- `@PUT(url: String)`
-- `@DELETE(url: String)`
-- `@JSONP(url: String)`
-- `@PATCH(url: String)`
-- `@HEAD(url: String)`
+- `@GET(url: string)`
+- `@POST(url: string)`
+- `@PUT(url: string)`
+- `@DELETE(url: string)`
+- `@JSONP(url: string)`
+- `@PATCH(url: string)`
+- `@HEAD(url: string)`
 - `@OPTIONS(url: String)`
-- `@Headers(headers: any)`
-- `@RequestOptions(headers: any)`
-- `@Extra(headers: any)`
 
-### Parameter decorators:
+* `@Headers(headers: any)`
+* `@RequestOptions(headers: any)`
+* `@Extra(headers: any)`
+
+### Parameter Decorators
 
 - `@Path(key: string)`
 - `@Query(key: string)`

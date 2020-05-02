@@ -1,6 +1,7 @@
 import { HttpParams, HttpHeaders } from '@angular/common/http';
 
-import { RebirthHttpClient, MethodType } from './typings';
+import { MethodType } from './typings';
+import { RebirthHttpClient } from './client';
 import { isUndefined, isObject, isNil, getMetadata } from './utils';
 
 function methodBuilder(method: MethodType) {

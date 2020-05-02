@@ -8,17 +8,13 @@ import { RebirthHttpInterceptor } from './typings';
 
 @Injectable()
 export class RebirthHttpProvider {
-  private interceptors: RebirthHttpInterceptor[];
-
-  constructor() {
-    this.interceptors = [];
-  }
+  private interceptors: RebirthHttpInterceptor[] = [];
 
   getInterceptors() {
     return this.interceptors;
   }
 
-  addInterceptor(interceptor: RebirthHttpInterceptor): RebirthHttpProvider {
+  addInterceptor(interceptor: RebirthHttpInterceptor): this {
     this.interceptors.push(interceptor);
     return this;
   }
@@ -38,7 +34,7 @@ export class RebirthHttpProvider {
   ): RebirthHttpProvider {
     return this.addInterceptor({
       response: (
-        response: HttpEvent<any>,
+        response: HttpEvent<any> | HttpErrorResponse,
         request?: HttpRequest<any>
       ): HttpEvent<any> | void => {
         return interceptor(response, request) || response;
@@ -115,7 +111,7 @@ export class RebirthHttpProvider {
               obj[key] = headers[key];
             }
             return obj;
-          }, {});
+          }, {} as any);
         }
 
         return request.clone({ setHeaders: result });

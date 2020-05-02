@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { isUndefined } from './utils';
-import { RebirthHttpClient } from './typings';
+import { RebirthHttpClient } from './client';
 
 export function BaseUrl(url: string) {
   return function <TFunction extends Function>(target: TFunction): TFunction {
