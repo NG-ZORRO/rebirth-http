@@ -1,18 +1,19 @@
 import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpSentEvent,
-  HttpHeaderResponse,
-  HttpProgressEvent,
-  HttpResponse,
-  HttpUserEvent,
   HttpEventType,
+  HttpHandler,
+  HttpHeaderResponse,
+  HttpInterceptor,
+  HttpProgressEvent,
+  HttpRequest,
+  HttpResponse,
+  HttpSentEvent,
+  HttpUserEvent,
 } from '@angular/common/http';
-import { RebirthHttpProvider } from './service';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+
+import { RebirthHttpProvider } from './service';
 
 @Injectable()
 export class RebirthHttpInterceptors implements HttpInterceptor {

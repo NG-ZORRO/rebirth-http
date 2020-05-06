@@ -20,6 +20,7 @@
       true,
       "rxjs/Rx"
     ],
+    "ordered-imports": true,
     "import-spacing": true,
     "indent": [
       true,

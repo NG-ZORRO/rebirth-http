@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import {
-  HTTP_INTERCEPTORS,
   HttpClientJsonpModule,
   HttpClientModule,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 
 import { RebirthHttpInterceptors } from './interceptor';
 import { REBIRTH_HTTP_PROVIDERS } from './service';

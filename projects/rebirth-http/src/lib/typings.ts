@@ -1,7 +1,7 @@
 import {
-  HttpRequest,
-  HttpEvent,
   HttpErrorResponse,
+  HttpEvent,
+  HttpRequest,
 } from '@angular/common/http';
 
 export const Any = null as any;

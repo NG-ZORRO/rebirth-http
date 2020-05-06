@@ -1,6 +1,6 @@
-import { getMetadataKey, setMetadata } from './utils';
-import { ParamType } from './typings';
 import { RebirthHttpClient } from './client';
+import { ParamType } from './typings';
+import { getMetadataKey, setMetadata } from './utils';
 
 function paramBuilder(paramType: ParamType, optional = false) {
   return function (key?: string) {

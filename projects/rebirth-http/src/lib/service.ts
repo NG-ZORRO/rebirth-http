@@ -1,9 +1,10 @@
-import { Injectable, Provider } from '@angular/core';
 import {
-  HttpRequest,
-  HttpEvent,
   HttpErrorResponse,
+  HttpEvent,
+  HttpRequest,
 } from '@angular/common/http';
+import { Injectable, Provider } from '@angular/core';
+
 import { RebirthHttpInterceptor } from './typings';
 
 @Injectable()

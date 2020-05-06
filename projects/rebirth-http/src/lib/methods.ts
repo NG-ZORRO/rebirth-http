@@ -1,8 +1,8 @@
-import { HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { MethodType } from './typings';
 import { RebirthHttpClient } from './client';
-import { isUndefined, isObject, isNil, getMetadata } from './utils';
+import { MethodType } from './typings';
+import { getMetadata, isNil, isObject, isUndefined } from './utils';
 
 function methodBuilder(method: MethodType) {
   return function (url: string) {

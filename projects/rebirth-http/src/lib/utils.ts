@@ -1,4 +1,4 @@
-import { ParamType, ParamMetadata } from './typings';
+import { ParamMetadata, ParamType } from './typings';
 
 export function isObject(value: any): value is Object {
   return value !== null && typeof value === 'object';
