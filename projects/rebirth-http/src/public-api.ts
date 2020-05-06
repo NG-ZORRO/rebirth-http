@@ -1,5 +1,6 @@
 export { RebirthHttpModule } from './lib/module';
 
+export * from './lib/client';
 export * from './lib/decorators';
 export * from './lib/interceptor';
 export * from './lib/methods';

@@ -1,6 +1,6 @@
 {
   "name": "@ng-zorro/rebirth-http",
-  "version": "9.0.0",
+  "version": "9.0.0-alpha.0",
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0"

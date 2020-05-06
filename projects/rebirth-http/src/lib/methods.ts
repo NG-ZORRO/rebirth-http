@@ -70,7 +70,7 @@ function methodBuilder(method: MethodType) {
         }
 
         // header
-        let headers = new HttpHeaders(target.getDefaultHeaders());
+        let headers = new HttpHeaders(target.getDefaultHeaders() as string);
         console.log(descriptor);
 
         for (const k in descriptor.headers) {
