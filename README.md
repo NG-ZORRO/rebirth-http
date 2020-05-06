@@ -1,23 +1,22 @@
-# @rebirth/rebirth-http
+<h1 align="center">
+@ng-zorro/rebirth-http
+</h1>
 
-[![Build Status](https://travis-ci.org/greengerong/rebirth-http.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-http)
-[![dependcy](https://david-dm.org/greengerong/rebirth-http.svg)](https://david-dm.org/greengerong/rebirth-http)
-[![dev dependcy](https://david-dm.org/greengerong/rebirth-http/dev-status.svg)](https://david-dm.org/greengerong/rebirth-http?type=dev)
-[![npm version](https://img.shields.io/npm/v/rebirth-http.svg)](https://www.npmjs.com/package/rebirth-http)
+<div align="center">
 
-> Java JPA like http lib for Angular `HttpClient`
+A Java JPA like HTTP client for Angular.
 
-===============================
+[![npm version](https://img.shields.io/npm/v/@ng-zorro/rebirth-http.svg)](https://www.npmjs.com/package/rebirth-http)
 
-Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us the inspiration.
+</div>
 
-## Install
+## 📦 Installation
 
 ```bash
-npm install rebirth-http --save
+$ npm install @ng-zorro/rebirth-http --save
 ```
 
-## Usage
+## 🔨 Usage
 
 ### Step 1, Register `RebirthHttpModule`
 
@@ -104,11 +103,15 @@ export class ArticleService extends RebirthHttpClient {
 }
 ```
 
+### Step 3, Call `ArticleService`
+
+Now you can call methods of `ArticleService` to fire HTTP requests! :)
+
 ### Interceptor
 
-<!-- TODO: provide a factory injection token... This is not elegant. -->
+You can add interceptors for any `RebirthHttpClient`.
 
-```typescript
+```ts
 import { config } from '@/config';
 import { RebirthHttpProvider } from '@ng-zorro/rebirth-http';
 
@@ -127,9 +130,11 @@ export class AppComponent {
 }
 ```
 
-## API
+## ✨ API
 
-### RebirthHttpClient
+### `RebirthHttpClient`
+
+Every service that is responsible for HTTP should inherit `RebirthHttpClient`.
 
 - `getBaseUrl(): string`: returns the base url of the RebirthHttp client
 - `getDefaultHeaders(): { [name: string]: string }`: returns the default headers of RebirthHttp in a key-value pair
@@ -145,6 +150,8 @@ These decorators should be used on classes that inherit `RebirthHttpClient`.
 
 #### HTTP Method Decorators
 
+These decorators would make methods of `RebirthHttpClient` capable of sending HTTP requests.
+
 - `@GET(url: string)`
 - `@POST(url: string)`
 - `@PUT(url: string)`
@@ -154,17 +161,25 @@ These decorators should be used on classes that inherit `RebirthHttpClient`.
 - `@HEAD(url: string)`
 - `@OPTIONS(url: String)`
 
-* `@Headers(headers: any)`
-* `@RequestOptions(headers: any)`
-* `@Extra(headers: any)`
+You could use the decorators below to modify HTTP options.
+
+- `@Headers(headers: any)`
+- `@RequestOptions(headers: any)`
+- `@Extra(headers: any)`
 
 ### Parameter Decorators
+
+Use the decorators below to decorate parameters of methods of `RebirthHttpClient`, so the parameter would become corresponding HTTP options.
 
 - `@Path(key: string)`
 - `@Query(key: string)`
 - `@Header(key: string)`
 - `@Body`
 
-## License
+## 💚 Credit
+
+Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us the inspiration.
+
+## ☀️ License
 
 MIT
